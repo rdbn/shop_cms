@@ -11,6 +11,11 @@ class OrderDto
     /**
      * @var int
      */
+    public $id;
+
+    /**
+     * @var int
+     */
     public $orderNumber;
 
     /**
@@ -52,8 +57,8 @@ class OrderDto
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
+        $metadata->addConstraint(new UniqueOrder());
         $metadata->addPropertyConstraint("orderNumber", new Assert\NotBlank());
-        $metadata->addPropertyConstraint("orderNumber", new UniqueOrder());
         $metadata->addPropertyConstraint("price", new Assert\NotBlank());
         $metadata->addPropertyConstraint("countProduct", new Assert\NotBlank());
         $metadata->addPropertyConstraint("orderUsername", new Assert\NotBlank());

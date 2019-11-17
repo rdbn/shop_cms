@@ -1,15 +1,30 @@
-version: 3
+version: '2'
 
 services:
     mysql:
+        container_name: shop_cms_mysql
         image: percona/percona-server:5.7
         ports:
-            - 3306
+            - "3306:3306"
+        volumes:
+            - ./docker/db/my.cnf:/etc/my.cnf
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: shop_cms
             MYSQL_USER: shop_cms
             MYSQL_PASSWORD: shop_cms
+    bitrix:
+        container_name: shop_cms_bitrix
+        image: percona/percona-server:5.7
+        ports:
+            - "3307:3306"
+        volumes:
+            - ./docker/db/my.cnf:/etc/my.cnf
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: bitrix
+            MYSQL_USER: bitrix
+            MYSQL_PASSWORD: bitrix
     php:
         container_name: shop_cms_php
         build: ./docker/php
@@ -17,6 +32,7 @@ services:
             - ./:/var/www/shop_cms
         links:
             - mysql
+            - bitrix
     nginx:
         container_name: shop_cms_nginx
         build: ./docker/nginx

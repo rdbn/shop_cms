@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Bootstrap 101 Template</title>
+        <title>Список заказов</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -21,7 +21,8 @@
                 <div class="row">
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="#">Список заказов</a></li>
+                            <li class="active"><a href="/">Список заказов</a></li>
+                            <li><a href="/order/create">Добавить заказ</a></li>
                             <li><a href="#">Склад</a></li>
                         </ul>
                     </div>
@@ -44,6 +45,7 @@
                             <th>Дата заказа</th>
                             <th>Имя заказчика</th>
                             <th>Информация о заказе</th>
+                            <th></th>
                         </thead>
                         <tbody>
                         <?php foreach ($orders as $order): ?>
@@ -54,6 +56,7 @@
                                 <td><?=$order["order_date"] ?></td>
                                 <td><?=$order["order_username"] ?></td>
                                 <td><?=$order["order_information"] ?></td>
+                                <td><a class="btn btn-primary" href="/order/edit?id=<?=$order["id"]?>">Редактировать</a></td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>

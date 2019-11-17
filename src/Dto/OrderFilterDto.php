@@ -3,7 +3,7 @@
 namespace App\Dto;
 
 
-class OrderFilter
+class OrderFilterDto
 {
     /**
      * @var string

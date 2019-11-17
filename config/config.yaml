@@ -1,0 +1,11 @@
+parameters:
+    host: mysql
+    port: 3306
+    username: shop_cms
+    password: shop_cms
+    database: shop_cms
+    host_bitrix: bitrix
+    port_bitrix: 3307
+    username_bitrix: bitrix
+    password_bitrix: bitrix
+    database_bitrix: bitrix

@@ -1,36 +1,101 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Authorization;
 
-use App\Repository\UserRepository;
+use App\Dto\Login;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class Authorization
+class AuthorizationValidator
 {
     /**
-     * @var UserRepository
+     * @var ValidatorInterface
      */
-    public $userRepository;
+    private $validator;
 
     /**
-     * AuthService constructor.
+     * @var Login
+     */
+    private $login;
+
+    /**
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * @var array
+     */
+    private $errorMessages;
+
+    /**
+     * AuthorizationValidator constructor.
      */
     public function __construct()
     {
-        $this->userRepository = new UserRepository();
+        $this->validator = Validation::createValidatorBuilder()
+            ->addMethodMapping("loadValidatorMetadata")
+            ->getValidator();
     }
 
     /**
-     * @param $username
-     * @param $password
+     * @param Request $request
      */
-    public function authorization($username, $password)
+    public function handlerRequest(Request $request): void
     {
-        $this->userRepository->findUserByUsername($username);
+        $this->request = $request;
+        if (!$this->isSubmit()) {
+            return;
+        }
+
+        $this->login = new Login();
+        $this->login->username = $this->request->request->get("username");
+        $this->login->password = $this->request->request->get("password");
     }
 
-    private function checkPassword($password, $userPassword)
+    /**
+     * @return bool
+     */
+    public function isValid(): bool
     {
-        $userPassword = hash("sha256", $userPassword);
+        if (!$this->isSubmit()) {
+            return false;
+        }
 
+        $this->validate();
+        if (count($this->errorMessages) == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return Login
+     */
+    public function getLogin(): Login
+    {
+        return $this->login;
+    }
+
+    /**
+     * @return bool
+     */
+    private function isSubmit(): bool
+    {
+        if ($this->request->request->has("username") && $this->request->request->has("password")) {
+            return true;
+        }
+        return false;
+    }
+
+    private function validate(): void
+    {
+        $errors = $this->validator->validate($this->login);
+        if ($errors->count()) {
+            foreach ($errors as $error) {
+                $this->errorMessages[$error->getPropertyPath()] = $error->getMessage();
+            }
+        }
     }
 }

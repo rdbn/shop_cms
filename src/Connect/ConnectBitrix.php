@@ -8,7 +8,7 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\DriverManager;
 use Symfony\Component\Yaml\Yaml;
 
-class Connect
+class ConnectBitrix
 {
     /**
      * @var string
@@ -53,32 +53,32 @@ class Connect
             throw new \InvalidArgumentException("Not found parameters in config.yaml: parameters");
         }
 
-        if (isset($parameters["parameters"]["host"])) {
-            $this->host = $parameters["parameters"]["host"];
+        if (isset($parameters["parameters"]["host_bitrix"])) {
+            $this->host = $parameters["parameters"]["host_bitrix"];
         } else {
             throw new \InvalidArgumentException("Not found parameters in config.yaml: host");
         }
 
-        if (isset($parameters["parameters"]["port"])) {
-            $this->port = $parameters["parameters"]["port"];
+        if (isset($parameters["parameters"]["port_bitrix"])) {
+            $this->port = $parameters["parameters"]["port_bitrix"];
         } else {
             throw new \InvalidArgumentException("Not found parameters in config.yaml: port");
         }
 
-        if (isset($parameters["parameters"]["username"])) {
-            $this->username = $parameters["parameters"]["username"];
+        if (isset($parameters["parameters"]["username_bitrix"])) {
+            $this->username = $parameters["parameters"]["username_bitrix"];
         } else {
             throw new \InvalidArgumentException("Not found parameters in config.yaml: username");
         }
 
-        if (isset($parameters["parameters"]["password"])) {
-            $this->password = $parameters["parameters"]["password"];
+        if (isset($parameters["parameters"]["password_bitrix"])) {
+            $this->password = $parameters["parameters"]["password_bitrix"];
         } else {
             throw new \InvalidArgumentException("Not found parameters in config.yaml: password");
         }
 
-        if (isset($parameters["parameters"]["database"])) {
-            $this->database = $parameters["parameters"]["database"];
+        if (isset($parameters["parameters"]["database_bitrix"])) {
+            $this->database = $parameters["parameters"]["database_bitrix"];
         } else {
             throw new \InvalidArgumentException("Not found parameters in config.yaml: database");
         }
@@ -98,6 +98,7 @@ class Connect
             'password' => $this->password,
             'host' => $this->host,
             'driver' => 'pdo_mysql',
+            'charset' => 'utf8'
         );
 
 

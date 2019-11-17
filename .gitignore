@@ -1,2 +1,4 @@
 .idea
+log/
 shop_cms.iml
+vendor/

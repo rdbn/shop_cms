@@ -3,11 +3,11 @@
 namespace App\Services\Order;
 
 use App\Connect\Connect;
-use App\Dto\OrderCreate;
+use App\Dto\OrderDto;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 
-class CreateOrder
+class EditOrder
 {
     /**
      * @var Connection
@@ -24,19 +24,21 @@ class CreateOrder
     }
 
     /**
-     * @param OrderCreate $orderCreate
+     * @param OrderDto $order
      * @throws DBALException
      */
-    public function create(OrderCreate $orderCreate): void
+    public function edit(OrderDto $order): void
     {
         try {
-            $this->dbal->insert("`order`", [
-                "order_number" => $orderCreate->orderNumber,
-                "price" => $orderCreate->price,
-                "order_date" => $orderCreate->orderDate,
-                "count_product" => $orderCreate->countProduct,
-                "order_username" => $orderCreate->orderUsername,
-                "order_information" => $orderCreate->orderInformation,
+            $this->dbal->update("`order`", [
+                "order_number" => $order->orderNumber,
+                "price" => $order->price,
+                "order_date" => $order->orderDate,
+                "count_product" => $order->countProduct,
+                "order_username" => $order->orderUsername,
+                "order_information" => $order->orderInformation,
+            ], [
+                "id" => $order->id,
             ]);
         } catch (DBALException $e) {
             throw new DBALException($e->getMessage());
