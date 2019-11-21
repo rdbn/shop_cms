@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Services\Authorization\AuthorizationChecker;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,6 +21,13 @@ class AbstractController
     public function __construct(Request $request)
     {
         $this->request = $request;
+        if (
+            $request->getPathInfo() != "/login"
+            && $request->getPathInfo() != "/registration"
+            && !((new AuthorizationChecker($request))->isAuthorization())
+        ) {
+            $this->redirect("login");
+        }
     }
 
     /**
@@ -48,5 +57,15 @@ class AbstractController
     {
         header("Location: {$this->request->getSchemeAndHttpHost()}/{$path}", true, $status);
         exit();
+    }
+
+    /**
+     * @param array $data
+     * @param int $status
+     * @return Response
+     */
+    protected function jsonResponse(array $data, $status = 200): Response
+    {
+        return new JsonResponse($data, $status, ['content-type' => 'application/json']);
     }
 }

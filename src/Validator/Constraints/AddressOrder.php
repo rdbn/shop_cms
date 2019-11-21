@@ -4,16 +4,22 @@ namespace App\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-class UniqueOrder extends Constraint
+class AddressOrder extends Constraint
 {
     public $message = 'This order number is used!';
 
-    public function validatedBy()
+    /**
+     * @return string
+     */
+    public function validatedBy(): string
     {
         return \get_class($this).'Validator';
     }
 
-    public function getTargets()
+    /**
+     * @return string
+     */
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }

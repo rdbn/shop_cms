@@ -39,23 +39,43 @@
                 <div class="col-lg-12">
                     <table class="table">
                         <thead>
-                            <th>Bitrix id</th>
+                            <th>id</th>
                             <th>Цена заказа</th>
-                            <th>Количество заказов</th>
                             <th>Дата заказа</th>
                             <th>Имя заказчика</th>
+                            <th>Телефон заказчика</th>
+                            <th>Адрес заказчика</th>
                             <th>Информация о заказе</th>
                             <th></th>
                         </thead>
                         <tbody>
                         <?php foreach ($orders as $order): ?>
                             <tr>
-                                <td><?=$order["order_number"] ?></td>
+                                <td><?=$order["id"] ?></td>
                                 <td><?=$order["price"] ?></td>
-                                <td><?=$order["count_product"] ?></td>
                                 <td><?=$order["order_date"] ?></td>
                                 <td><?=$order["order_username"] ?></td>
-                                <td><?=$order["order_information"] ?></td>
+                                <td><?=$order["tel"] ?></td>
+                                <td>
+                                    <?php if ($order["address"]): ?>
+                                        <?=$order["address"] ?>
+                                    <?php else: ?>
+                                        город: <?=$order["city"] ?><br/>
+                                        улица: <?=$order["street"] ?><br/>
+                                        дом: <?=$order["house"] ?><br/>
+                                        подъезд: <?=$order["podezd"] ?><br/>
+                                        этаж: <?=$order["floor"] ?><br/>
+                                        квартира: <?=$order["apartment"] ?><br/>
+                                        домофон: <?=$order["domofon"] ?>
+                                    <?php endif?>
+                                </td>
+                                <td>
+                                    <?php foreach ($order["order_information"]["products"] as $key => $product): ?>
+                                        <?=($key+1)?>: <?=$product[0]?><br/>
+                                    <?php endforeach; ?>
+                                    <br/>
+                                    Итого: <?=$order["order_information"]["final"]["Итого"]?>руб.
+                                </td>
                                 <td><a class="btn btn-primary" href="/order/edit?id=<?=$order["id"]?>">Редактировать</a></td>
                             </tr>
                         <?php endforeach; ?>
@@ -65,9 +85,9 @@
             </div>
         </div>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </body>
 </html>

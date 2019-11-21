@@ -22,6 +22,11 @@ class UserRepository
         $this->dbal = (new Connect())->connect();
     }
 
+    /**
+     * @param $username
+     * @return mixed
+     * @throws DBALException
+     */
     public function findUserByUsername($username)
     {
         $stmt = $this->dbal->prepare("SELECT u.* FROM user u WHERE u.username = :username");

@@ -2,7 +2,7 @@
 
 namespace App\Dto;
 
-use App\Validator\Constraints\UniqueOrder;
+use App\Validator\Constraints\AddressOrder;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
@@ -44,6 +44,56 @@ class OrderDto
     public $orderInformation;
 
     /**
+     * @var string
+     */
+    public $tel;
+
+    /**
+     * @var string
+     */
+    public $email;
+
+    /**
+     * @var string
+     */
+    public $address;
+
+    /**
+     * @var string
+     */
+    public $city;
+
+    /**
+     * @var string
+     */
+    public $street;
+
+    /**
+     * @var string
+     */
+    public $house;
+
+    /**
+     * @var string
+     */
+    public $podezd;
+
+    /**
+     * @var string
+     */
+    public $floor;
+
+    /**
+     * @var string
+     */
+    public $apartment;
+
+    /**
+     * @var string
+     */
+    public $domofon;
+
+    /**
      * OrderCreate constructor.
      * @throws \Exception
      */
@@ -57,11 +107,9 @@ class OrderDto
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
-        $metadata->addConstraint(new UniqueOrder());
-        $metadata->addPropertyConstraint("orderNumber", new Assert\NotBlank());
-        $metadata->addPropertyConstraint("price", new Assert\NotBlank());
-        $metadata->addPropertyConstraint("countProduct", new Assert\NotBlank());
+        $metadata->addConstraint(new AddressOrder());
         $metadata->addPropertyConstraint("orderUsername", new Assert\NotBlank());
         $metadata->addPropertyConstraint("orderInformation", new Assert\NotBlank());
+        $metadata->addPropertyConstraint("tel", new Assert\NotBlank());
     }
 }

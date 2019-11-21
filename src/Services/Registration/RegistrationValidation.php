@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\Authorization;
+namespace App\Services\Registration;
 
-use App\Dto\Login;
+use App\Dto\RegistrationDto;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class AuthorizationValidator
+class RegistrationValidation
 {
     /**
      * @var ValidatorInterface
@@ -15,9 +15,9 @@ class AuthorizationValidator
     private $validator;
 
     /**
-     * @var Login
+     * @var RegistrationDto
      */
-    private $login;
+    private $registration;
 
     /**
      * @var Request
@@ -30,7 +30,7 @@ class AuthorizationValidator
     private $errorMessages;
 
     /**
-     * AuthorizationValidator constructor.
+     * LoginValidator constructor.
      */
     public function __construct()
     {
@@ -49,9 +49,16 @@ class AuthorizationValidator
             return;
         }
 
-        $this->login = new Login();
-        $this->login->username = $this->request->request->get("username");
-        $this->login->password = $this->request->request->get("password");
+        $this->registration = new RegistrationDto();
+        $this->registration->username = $this->request->request->get("username");
+        $this->registration->password = $this->request->request->get("password");
+
+        $errors = $this->validator->validate($this->registration);
+        if ($errors->count()) {
+            foreach ($errors as $error) {
+                $this->errorMessages[$error->getPropertyPath()] = $error->getMessage();
+            }
+        }
     }
 
     /**
@@ -63,7 +70,6 @@ class AuthorizationValidator
             return false;
         }
 
-        $this->validate();
         if (count($this->errorMessages) == 0) {
             return true;
         }
@@ -71,11 +77,11 @@ class AuthorizationValidator
     }
 
     /**
-     * @return Login
+     * @return RegistrationDto
      */
-    public function getLogin(): Login
+    public function getRegistration(): RegistrationDto
     {
-        return $this->login;
+        return $this->registration;
     }
 
     /**
@@ -83,19 +89,6 @@ class AuthorizationValidator
      */
     private function isSubmit(): bool
     {
-        if ($this->request->request->has("username") && $this->request->request->has("password")) {
-            return true;
-        }
-        return false;
-    }
-
-    private function validate(): void
-    {
-        $errors = $this->validator->validate($this->login);
-        if ($errors->count()) {
-            foreach ($errors as $error) {
-                $this->errorMessages[$error->getPropertyPath()] = $error->getMessage();
-            }
-        }
+        return $this->request->request->has("username") && $this->request->request->has("password");
     }
 }

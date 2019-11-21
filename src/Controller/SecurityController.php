@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Services\Authorization\Authorization;
-use App\Services\Authorization\AuthorizationValidator;
+use App\Services\Authorization\LoginValidator;
+use App\Services\Registration\Registration;
+use App\Services\Registration\RegistrationValidation;
 use Symfony\Component\HttpFoundation\Response;
 
 class SecurityController extends AbstractController
@@ -14,7 +16,7 @@ class SecurityController extends AbstractController
      */
     public function login(): Response
     {
-        $authorizationValidate = new AuthorizationValidator();
+        $authorizationValidate = new LoginValidator();
         $authorizationValidate->handlerRequest($this->request);
 
         if ($authorizationValidate->isValid()) {
@@ -25,5 +27,24 @@ class SecurityController extends AbstractController
         }
 
         return $this->renderTemplate("authorization/login_form");
+    }
+
+    /**
+     * @return Response
+     * @throws \Exception
+     */
+    public function registration()
+    {
+        $authorizationValidate = new RegistrationValidation();
+        $authorizationValidate->handlerRequest($this->request);
+
+        if ($authorizationValidate->isValid()) {
+            $authorization = new Registration();
+            $authorization->registration($authorizationValidate->getRegistration());
+
+            $this->redirect();
+        }
+
+        return $this->renderTemplate("authorization/registration_form");
     }
 }

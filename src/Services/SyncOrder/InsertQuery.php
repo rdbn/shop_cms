@@ -11,8 +11,11 @@ class InsertQuery
         count_product, 
         order_date, 
         order_username, 
-        order_information
-    ) VALUES (%d, %f, %d, %s, %s, %s);';
+        order_information,
+        address,
+        tel,
+        email
+    ) VALUES (%d, %f, %d, %s, %s, %s, %s, %s, %s);';
 
     /**
      * @param array $values
@@ -29,7 +32,10 @@ class InsertQuery
             1,
             "'{$date}'",
             "'{$values["fio"]}'",
-            "'{$values["order_txt"]}'"
+            "'{$values["order_txt"]}'",
+            "'{$values["adress"]}'",
+            "'{$values["tel"]}'",
+            "'{$values["e_mail"]}'"
         );
     }
 }

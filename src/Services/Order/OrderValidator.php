@@ -53,11 +53,18 @@ class OrderValidator
 
         $request = $this->request->request->get("create_order");
 
-        $this->order->orderNumber = $request["order_number"];
-        $this->order->price = $request["price"];
-        $this->order->countProduct = $request["count_product"];
+        $this->order->price = $request["order_information"]["final"]["Сумма"];
         $this->order->orderUsername = $request["order_username"];
-        $this->order->orderInformation = $request["order_information"];
+        $this->order->orderInformation = (new ParserInformation())->arrayToString($request["order_information"]);
+        $this->order->tel = $request["tel"];
+        $this->order->address = $request["address"];
+        $this->order->city = $request["city"];
+        $this->order->street = $request["street"];
+        $this->order->house = $request["house"];
+        $this->order->podezd = $request["podezd"];
+        $this->order->apartment = $request["apartment"];
+        $this->order->floor = $request["floor"];
+        $this->order->domofon = $request["domofon"];
 
         $errors = $this->validator->validate($this->order);
         if ($errors->count() > 0) {

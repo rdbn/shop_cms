@@ -18,9 +18,14 @@ class Authorization
     public $request;
 
     /**
-     * @var UserRepository
+     * @var Request
      */
-    public $userRepository;
+    public $userProvider;
+
+    /**
+     * @var AuthorizationChecker
+     */
+    public $authorizationChecker;
 
     /**
      * AuthService constructor.
@@ -29,55 +34,18 @@ class Authorization
      */
     public function __construct(Request $request)
     {
-        $this->request = $request;
-        $this->userRepository = new UserRepository();
+        $this->userProvider = new UserProvider();
+        $this->authorizationChecker = new AuthorizationChecker($request);
     }
 
     /**
      * @param Login $login
      * @throws AuthorizationFailedException
+     * @throws DBALException
      */
     public function authorization(Login $login): void
     {
-        $user = $this->getUser($login);
-
-        $this->request->getSession()->set("user", $user["username"]);
-
-        $response = new Response();
-        $response->headers->setCookie(Cookie::create("user", $user["username"]));
-        $response->send();
-    }
-
-    /**
-     * @param Login $login
-     * @return array
-     * @throws AuthorizationFailedException
-     */
-    private function getUser(Login $login): array
-    {
-        $user = $this->userRepository->findUserByUsername($login->username);
-        if (false == $user) {
-            throw AuthorizationFailedException::failed();
-        }
-
-        if ($this->checkPassword($login->password, $user["password"])) {
-            throw AuthorizationFailedException::failed();
-        }
-
-        return $user;
-    }
-
-    /**
-     * @param $password
-     * @param $userPassword
-     * @return bool
-     */
-    private function checkPassword($password, $userPassword): bool
-    {
-        $hashPassword = hash("sha256", $password);
-        if ($hashPassword == $userPassword) {
-            return true;
-        }
-        return false;
+        $user = $this->userProvider->loadUserByUsername($login);
+        $this->authorizationChecker->setAuthorization($user["username"]);
     }
 }

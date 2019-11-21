@@ -31,12 +31,19 @@ class CreateOrder
     {
         try {
             $this->dbal->insert("`order`", [
-                "order_number" => $order->orderNumber,
                 "price" => $order->price,
                 "order_date" => $order->orderDate,
-                "count_product" => $order->countProduct,
                 "order_username" => $order->orderUsername,
                 "order_information" => $order->orderInformation,
+                "tel" => $order->tel,
+                "address" => $order->address,
+                "city" => $order->city,
+                "street" => $order->street,
+                "house" => $order->house,
+                "podezd" => $order->podezd,
+                "apartment" => $order->apartment,
+                "floor" => $order->floor,
+                "domofon" => $order->domofon,
             ]);
         } catch (DBALException $e) {
             throw new DBALException($e->getMessage());

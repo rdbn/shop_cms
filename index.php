@@ -2,6 +2,7 @@
 
 use App\Controller\OrderController;
 use App\Controller\SecurityController;
+use App\Controller\ProductController;
 use App\Services\Logger;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
@@ -38,9 +39,19 @@ $routes->add('edit_orders', new Route('/order/edit', [
     'method' => 'edit'
 ]));
 
+$routes->add('search_product', new Route('/product/search', [
+    '_controller' => ProductController::class,
+    'method' => 'search'
+]));
+
 $routes->add('login', new Route('/login', [
     '_controller' => SecurityController::class,
     'method' => 'login'
+]));
+
+$routes->add('registration', new Route('/registration', [
+    '_controller' => SecurityController::class,
+    'method' => 'registration'
 ]));
 
 $context = new RequestContext('/');
@@ -52,7 +63,8 @@ try {
 
     $controller = new $parameters["_controller"]($request);
     /** @var Response $response */
-    $controller->{$parameters["method"]}();
+    $response = $controller->{$parameters["method"]}();
+    $response->send();
 } catch (ResourceNotFoundException $e) {
     $log->error($e->getMessage());
     $response = new Response("404 not found", 404);

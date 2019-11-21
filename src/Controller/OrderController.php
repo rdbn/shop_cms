@@ -8,6 +8,7 @@ use App\Repository\OrderRepository;
 use App\Services\Order\CreateOrder;
 use App\Services\Order\EditOrder;
 use App\Services\Order\OrderValidator;
+use App\Services\Order\ParserInformation;
 use Doctrine\DBAL\DBALException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -26,6 +27,10 @@ class OrderController extends AbstractController
 
         try {
             $orders = (new OrderRepository())->findOrdersByFilter($orderFilter);
+            $orders = array_map(function ($item) {
+                $item["order_information"] = (new ParserInformation())->stringToArray($item["order_information"]);
+                return $item;
+            }, $orders);
         } catch (DBALException $e) {
             $orders = [];
         }
@@ -76,6 +81,8 @@ class OrderController extends AbstractController
             (new EditOrder())->edit($orderValidator->getOrder());
             $this->redirect();
         }
+
+        $order["order_information"] = (new ParserInformation())->stringToArray($order["order_information"]);
 
         return $this->renderTemplate("orders/form_orders", [
             "requestValue" => array_merge($order, $this->request->request->get("create_order", [])),
