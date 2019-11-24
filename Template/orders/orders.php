@@ -51,7 +51,7 @@
                         </thead>
                         <tbody>
                         <?php foreach ($orders as $order): ?>
-                            <tr>
+                            <tr <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["end"]): ?>class="text-muted"<?php endif; ?>>
                                 <td><?=$order["id"] ?></td>
                                 <td>
                                     <?php $price = $order["order_information"]["final"]["Итого"]; ?>
@@ -80,10 +80,12 @@
                                     <?php endforeach; ?>
                                 </td>
                                 <td>
-                                    <div class="btn-group-vertical">
-                                        <a class="btn btn-primary" href="/order/edit?id=<?=$order["id"]?>">Редактировать</a>
-                                        <a class="btn btn-warning" href="/order/change-status?id=<?=$order["id"]?>">Выполнено</a>
-                                    </div>
+                                    <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["process"]): ?>
+                                        <div class="btn-group-vertical">
+                                            <a class="btn btn-primary" href="/order/edit?id=<?=$order["id"]?>">Редактировать</a>
+                                            <a class="btn btn-warning" href="/order/change-status?id=<?=$order["id"]?>">Выполнено</a>
+                                        </div>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
