@@ -45,6 +45,7 @@ class CreateOrder
                 "floor" => $order->floor,
                 "domofon" => $order->domofon,
                 "sales" => $order->sales,
+                "message" => $order->message,
             ]);
         } catch (DBALException $e) {
             throw new DBALException($e->getMessage());

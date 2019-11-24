@@ -18,8 +18,9 @@ class InsertQuery
         podezd,
         floor,
         apartment,
-        domofon        
-    ) VALUES (%d, %f, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);';
+        domofon,
+        message   
+    ) VALUES (%d, %f, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);';
 
     /**
      * @param array $values
@@ -43,7 +44,8 @@ class InsertQuery
             "'{$values["porch"]}'",
             "'{$values["floor"]}'",
             "'{$values["flat"]}'",
-            "'{$values["code"]}'"
+            "'{$values["code"]}'",
+            "'{$values["memo"]}'"
         );
     }
 }

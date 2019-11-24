@@ -52,6 +52,7 @@ class OrderRepository
             ->addSelect("o.domofon")
             ->addSelect("o.sales")
             ->addSelect("o.status")
+            ->addSelect("o.message")
             ->from("`order`", "o")
             ->orderBy("o.id", "DESC")
             ->setFirstResult(($filter->page - 1) * $filter->limit)

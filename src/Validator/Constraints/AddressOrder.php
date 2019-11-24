@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraint;
 
 class AddressOrder extends Constraint
 {
-    public $message = 'This order number is used!';
+    public $message = 'Не заполнен адрес доставки!';
 
     /**
      * @return string

@@ -47,6 +47,7 @@
                             <th>Телефон заказчика</th>
                             <th>Адрес заказчика</th>
                             <th>Информация о заказе</th>
+                            <th>Коментарий</th>
                             <th></th>
                         </thead>
                         <tbody>
@@ -76,8 +77,11 @@
                                 </td>
                                 <td>
                                     <?php foreach ($order["order_information"]["products"] as $key => $product): ?>
-                                        <?=($key+1)?>: <?=$product[0]?> (Кол-во: <?=$product[1]["count"]?>)<br/>
+                                        <?=($key+1)?>: <?=$product["name"]?> (Кол-во: <?=$product["count"]?>)<br/>
                                     <?php endforeach; ?>
+                                </td>
+                                <td>
+                                    <?=$order["message"]?>
                                 </td>
                                 <td>
                                     <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["process"]): ?>

@@ -8,11 +8,11 @@ require __DIR__ . '/../vendor/autoload.php';
 $log = (new Logger('sync_order'))->getLogger();
 
 $log->info("Start sync order");
-//try {
+try {
     $syncOrder = new SyncOrder();
     $syncOrder->sync();
-//} catch (\Exception $e) {
-//    $log->error($e->getMessage());
-//    exit(1);
-//}
+} catch (\Exception $e) {
+    $log->error($e->getMessage());
+    exit(1);
+}
 $log->info("End sync order");

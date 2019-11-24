@@ -119,11 +119,11 @@
                                 <?php foreach ($requestValue["order_information"]["products"] as $key => $product): ?>
                                     <tr class="products">
                                         <td>
-                                            <input value="<?=$product[0]?>" name="create_order[order_information][product][<?=$key?>][name]" class="form-control typeahead" type="text" data-provide="typeahead" />
+                                            <input value="<?=$product["name"]?>" name="create_order[order_information][products][<?=$key?>][name]" class="form-control typeahead" type="text" data-provide="typeahead" />
                                         </td>
                                         <td>
-                                            <input class="price order-prices-<?=$key?>" name="create_order[order_information][product][<?=$key?>][price]" type="hidden" value="<?=$product[1]["price"]?>" />
-                                            <?=$product[1]["price"]?>руб.
+                                            <input class="price order-prices-<?=$key?>" name="create_order[order_information][products][<?=$key?>][price]" type="hidden" value="<?=$product["price"]?>" />
+                                            <?=$product["price"]?>руб.
                                         </td>
                                         <td>
                                             <div class="row">
@@ -134,7 +134,7 @@
                                                                 <span class="glyphicon glyphicon-plus"></span>
                                                             </button>
                                                         </span>
-                                                        <input name="create_order[order_information][product][<?=$key?>][count]" type="number" class="form-control order-count-<?=$key?>" value="<?=$product[1]["count"]?>" />
+                                                        <input name="create_order[order_information][products][<?=$key?>][count]" type="number" class="form-control order-count-<?=$key?>" value="<?=$product["count"]?>" />
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-danger remove-order" type="button" data-id="<?=$key?>">
                                                                 <span class="glyphicon glyphicon-minus"></span>
@@ -145,8 +145,8 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <input class="total-price order-total-prices-<?=$key?>" name="create_order[order_information][product][<?=$key?>][price_total]" type="hidden" value="<?=$product[1]["price_total"]?>" />
-                                            <span class="price-total-<?=$key?>"><?=$product[1]["price_total"]?></span>руб.
+                                            <input class="total-price order-total-prices-<?=$key?>" name="create_order[order_information][products][<?=$key?>][price_total]" type="hidden" value="<?=$product["price_total"]?>" />
+                                            <span class="price-total-<?=$key?>"><?=$product["price_total"]?></span>руб.
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-danger remove-element">Удалить</button>
@@ -157,12 +157,12 @@
                             </tbody>
                         </table>
                         <div class="form-group">
-                            <input id="create_order_sales" type="hidden" name="create_order[sale]" value="<?=$requestValue["sales"]?>" />
+                            <input id="create_order_sales" type="hidden" name="create_order[sale]" value="<?php if (isset($requestValue["sales"])): ?><?=$requestValue["sales"]?><?php endif; ?>" />
                             <h5>Скидка:</h5>
                             <div id="btn-group" class="btn-group">
-                                <button type="button" class="sales btn btn-default <?php if ($requestValue["sales"] == 10): ?>active<?php endif; ?>" data-sales="10">10%</button>
-                                <button type="button" class="sales btn btn-default <?php if ($requestValue["sales"] == 20): ?>active<?php endif; ?>" data-sales="20">20%</button>
-                                <button type="button" class="sales btn btn-default <?php if ($requestValue["sales"] == 30): ?>active<?php endif; ?>" data-sales="30">30%</button>
+                                <button type="button" class="sales btn btn-default <?php if (isset($requestValue["sales"]) && $requestValue["sales"] == 10): ?>active<?php endif; ?>" data-sales="10">10%</button>
+                                <button type="button" class="sales btn btn-default <?php if (isset($requestValue["sales"]) && $requestValue["sales"] == 20): ?>active<?php endif; ?>" data-sales="20">20%</button>
+                                <button type="button" class="sales btn btn-default <?php if (isset($requestValue["sales"]) && $requestValue["sales"] == 30): ?>active<?php endif; ?>" data-sales="30">30%</button>
                                 <button type="button" class="btn btn-default disabled-sale">Отменить скидку</button>
                             </div>
                         </div>
@@ -172,7 +172,7 @@
                                 <input id="input-total-sum" name="create_order[order_information][final][Сумма]" type="hidden" value="<?=$final["Сумма"]?>" />
                                 Сумма:
                                 <span id="total-sum" data-sum="<?=$final["Сумма"]?>">
-                                    <?php if ($requestValue["sales"] == 0): ?>
+                                    <?php if (!isset($requestValue["sales"]) || $requestValue["sales"] == 0): ?>
                                         <?=$final["Сумма"]?>руб.
                                     <?php else: ?>
                                         <s><?=$final["Сумма"]?>руб.</s>: <?=($final["Сумма"]-($requestValue["sales"] * $final["Сумма"] / 100))?>руб.
@@ -182,7 +182,7 @@
                                 Доставка: <span id="sum-delivery" data-sum="<?=$final["Доставка"]?>"><?=$final["Доставка"]?></span>руб.<br/>
                                 <input id="input-final-total-sum" name="create_order[order_information][final][Итого]" type="hidden" value="<?=$final["Итого"]?>" />
                                 Итого: <span id="final-total-sum" data-sum="<?=$final["Итого"]?>">
-                                    <?php if ($requestValue["sales"] == 0): ?>
+                                    <?php if (!isset($requestValue["sales"]) || $requestValue["sales"] == 0): ?>
                                         <?=$final["Итого"]?>руб.
                                     <?php else: ?>
                                         <s><?=$final["Итого"]?>руб.</s>:
@@ -233,6 +233,10 @@
                                 <input name="create_order[order_information][orderInformation][Доставка]" class="form-control" type="text" value="Курьером" placeholder="Доставка" />
                             </div>
                         <?php endif; ?>
+                        <div class="form-group">
+                            <label for="create_order_message">Коментарий</label>
+                            <textarea id="create_order_message" name="create_order[message]" class="form-control" rows="5"><?php if (isset($requestValue["message"])): ?><?=$requestValue["message"]?><?php endif ?></textarea>
+                        </div>
                         <button class="btn btn-primary">Сохранить</button>
                     </form>
                 </div>
@@ -327,14 +331,14 @@
                     $(this).attr("data-count", parseInt(count) + 1);
 
                     var html = '<tr class="products"><td>' +
-'<input value="" name="create_order[order_information][product]['+count+'][name]" class="form-control typeahead" type="text" data-provide="typeahead" data-count="'+count+'" />' +
-'</td><td><input class="price order-prices-'+count+'" name="create_order[order_information][product]['+count+'][price]" type="hidden" value="" />' +
+'<input value="" name="create_order[order_information][products]['+count+'][name]" class="form-control typeahead" type="text" data-provide="typeahead" data-count="'+count+'" />' +
+'</td><td><input class="price order-prices-'+count+'" name="create_order[order_information][products]['+count+'][price]" type="hidden" value="" />' +
 '<span class="span-order-prices-'+count+'"></span>руб.</td><td><div class="row"><div class="col-lg-6"><div class="input-group"><span class="input-group-btn">' +
 '<button class="btn btn-success add-order" type="button" data-id="'+count+'"><span class="glyphicon glyphicon-plus"></span></button></span>' +
-'<input name="create_order[order_information][product]['+count+'][count]" type="number" class="form-control order-count-'+count+'" value="1" />' +
+'<input name="create_order[order_information][products]['+count+'][count]" type="number" class="form-control order-count-'+count+'" value="1" />' +
 '<span class="input-group-btn"><button class="btn btn-danger remove-order" type="button" data-id="'+count+'"><span class="glyphicon glyphicon-minus"></span></button></span>' +
 '</div></div></div></td><td>' +
-'<input class="total-price order-total-prices-'+count+'" name="create_order[order_information][product]['+count+'][price_total]" type="hidden" value="0" />' +
+'<input class="total-price order-total-prices-'+count+'" name="create_order[order_information][products]['+count+'][price_total]" type="hidden" value="0" />' +
 '<span class="price-total-'+count+'">0</span>руб.</td><td><button type="button" class="btn btn-danger remove-element">Удалить</button></td></tr>';
 
                     $("#order-information tbody").append(html);

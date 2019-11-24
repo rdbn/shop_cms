@@ -13,14 +13,14 @@ class ArrayToString
     {
         if (count($orderInformation) == 3) {
             return implode($delimiter, [
-                $this->productsOrder($orderInformation["product"]),
+                $this->productsOrder($orderInformation["products"]),
                 $this->finalInformation($orderInformation["final"]),
                 $this->orderInformation($orderInformation["orderInformation"]),
             ]);
         }
 
         return implode($delimiter, [
-            $this->productsOrder($orderInformation["product"]),
+            $this->productsOrder($orderInformation["products"]),
             $this->finalInformation($orderInformation["final"]),
             $this->presentInformation($orderInformation["present"]),
             $this->orderInformation($orderInformation["orderInformation"]),

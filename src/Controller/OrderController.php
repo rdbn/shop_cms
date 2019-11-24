@@ -83,7 +83,9 @@ class OrderController extends AbstractController
             $this->redirect();
         }
 
-        $order["order_information"] = (new ParserInformation())->stringToArray($order["order_information"]);
+        if (!is_array($order["order_information"])) {
+            $order["order_information"] = (new ParserInformation())->stringToArray($order["order_information"]);
+        }
 
         return $this->renderTemplate("orders/form_orders", [
             "requestValue" => array_merge($order, $this->request->request->get("create_order", [])),

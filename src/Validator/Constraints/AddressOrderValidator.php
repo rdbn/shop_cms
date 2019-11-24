@@ -25,7 +25,7 @@ class AddressOrderValidator extends ConstraintValidator
             $value->domofon
         )) {
             $this->context->buildViolation($constraint->message)
-                ->atPath("address")
+                ->atPath("city")
                 ->addViolation();
         }
     }

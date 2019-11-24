@@ -42,7 +42,8 @@ class StringToArray
             if (count($product) == 2) {
                 $productInformation = explode(" -- ", $product[1]);
                 $countProduct = explode(" X ", $productInformation[0]);
-                $product[1] = [
+                $product = [
+                    "name" => $product[0],
                     "price" => (float)str_replace(" ", "", $countProduct[0]),
                     "price_total" => (float)str_replace(" ", "", $productInformation[1]),
                     "count" => (int)$countProduct[1],

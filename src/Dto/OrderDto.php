@@ -104,6 +104,11 @@ class OrderDto
     public $sales;
 
     /**
+     * @var string
+     */
+    public $message;
+
+    /**
      * OrderCreate constructor.
      * @throws \Exception
      */
