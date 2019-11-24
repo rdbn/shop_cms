@@ -31,17 +31,14 @@ class EditOrder
     {
         try {
             $this->dbal->update("`order`", [
-                "order_number" => $order->orderNumber,
                 "price" => $order->price,
                 "order_date" => $order->orderDate,
-                "count_product" => $order->countProduct,
                 "order_username" => $order->orderUsername,
                 "order_information" => $order->orderInformation,
                 "tel" => $order->tel,
                 "email" => $order->email,
                 "address" => $order->address,
                 "city" => $order->city,
-                "street" => $order->street,
                 "house" => $order->house,
                 "podezd" => $order->podezd,
                 "apartment" => $order->apartment,

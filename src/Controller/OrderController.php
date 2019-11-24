@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Connect\Connect;
 use App\Dto\OrderDto;
 use App\Dto\OrderFilterDto;
 use App\Repository\OrderRepository;
@@ -88,5 +89,23 @@ class OrderController extends AbstractController
             "requestValue" => array_merge($order, $this->request->request->get("create_order", [])),
             "errorMessages" => $orderValidator->errorMessages(),
         ]);
+    }
+
+    /**
+     * @throws DBALException
+     */
+    public function changeStatus(): void
+    {
+        $order = (new OrderRepository())->findOneById($this->request->query->getInt("id", 0));
+        if (count($order) == 0) {
+            throw new ResourceNotFoundException();
+        }
+
+        (new Connect())->connect()
+            ->update("`order`", [
+                "status" => OrderDto::STATUS["end"]
+            ], ["id" => $order["id"]]);
+
+        $this->redirect();
     }
 }

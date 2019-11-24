@@ -39,6 +39,11 @@ $routes->add('edit_orders', new Route('/order/edit', [
     'method' => 'edit'
 ]));
 
+$routes->add('change_status', new Route('/order/change-status', [
+    '_controller' => OrderController::class,
+    'method' => 'changeStatus'
+]));
+
 $routes->add('search_product', new Route('/product/search', [
     '_controller' => ProductController::class,
     'method' => 'search'

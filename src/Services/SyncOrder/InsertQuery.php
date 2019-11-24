@@ -8,14 +8,18 @@ class InsertQuery
     INSERT INTO `order`(
         order_number, 
         price, 
-        count_product, 
         order_date, 
         order_username, 
         order_information,
-        address,
         tel,
-        email
-    ) VALUES (%d, %f, %d, %s, %s, %s, %s, %s, %s);';
+        email,
+        city,
+        house,
+        podezd,
+        floor,
+        apartment,
+        domofon        
+    ) VALUES (%d, %f, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);';
 
     /**
      * @param array $values
@@ -29,13 +33,17 @@ class InsertQuery
         return sprintf(self::INSERT_SQL,
             $values["n_order"],
             (float)$values["summa"],
-            1,
             "'{$date}'",
             "'{$values["fio"]}'",
             "'{$values["order_txt"]}'",
-            "'{$values["adress"]}'",
             "'{$values["tel"]}'",
-            "'{$values["e_mail"]}'"
+            "'{$values["e_mail"]}'",
+            "'{$values["adress"]}'",
+            "'{$values["house"]}'",
+            "'{$values["porch"]}'",
+            "'{$values["floor"]}'",
+            "'{$values["flat"]}'",
+            "'{$values["code"]}'"
         );
     }
 }

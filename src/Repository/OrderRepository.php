@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Connect\Connect;
+use App\Dto\OrderDto;
 use App\Dto\OrderFilterDto;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
@@ -50,6 +51,7 @@ class OrderRepository
             ->addSelect("o.floor")
             ->addSelect("o.domofon")
             ->from("`order`", "o")
+            ->andWhere($qb->expr()->eq("o.status", OrderDto::STATUS["process"]))
             ->orderBy("o.id", "DESC")
             ->setFirstResult(($filter->page - 1) * $filter->limit)
             ->setMaxResults($filter->limit)
@@ -68,7 +70,7 @@ class OrderRepository
      */
     public function findOrdersByOrderNumber(int $orderNumber): string
     {
-        $stmt = $this->dbal->prepare("SELECT o.id FROM `order` o WHERE o.order_number = :order_number");
+        $stmt = $this->dbal->prepare("SELECT o.order_number FROM `order` o WHERE o.order_number = :order_number");
         $stmt->bindValue("order_number", $orderNumber, \PDO::PARAM_INT);
         $stmt->execute();
 

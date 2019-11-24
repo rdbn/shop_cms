@@ -16,9 +16,8 @@ class AddressOrderValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if (!$value->address && !(
+        if (!(
             $value->city &&
-            $value->street &&
             $value->house &&
             $value->podezd &&
             $value->apartment &&

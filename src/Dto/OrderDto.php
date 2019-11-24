@@ -8,6 +8,11 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class OrderDto
 {
+    const STATUS = [
+        "process" => 1,
+        "end" => 2,
+    ];
+
     /**
      * @var int
      */

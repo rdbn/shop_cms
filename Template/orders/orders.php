@@ -41,6 +41,7 @@
                         <thead>
                             <th>id</th>
                             <th>Цена заказа</th>
+                            <th>Тип оплаты</th>
                             <th>Дата заказа</th>
                             <th>Имя заказчика</th>
                             <th>Телефон заказчика</th>
@@ -52,31 +53,30 @@
                         <?php foreach ($orders as $order): ?>
                             <tr>
                                 <td><?=$order["id"] ?></td>
-                                <td><?=$order["price"] ?></td>
-                                <td><?=$order["order_date"] ?></td>
+                                <td><?=$order["order_information"]["final"]["Итого"]?>руб.</td>
+                                <td><?=$order["order_information"]["orderInformation"]["Вид оплаты"];?></td>
+                                <td><?=(new \DateTime($order["order_date"]))->format("H:i:s d.m.Y") ?></td>
                                 <td><?=$order["order_username"] ?></td>
                                 <td><?=$order["tel"] ?></td>
                                 <td>
-                                    <?php if ($order["address"]): ?>
-                                        <?=$order["address"] ?>
-                                    <?php else: ?>
-                                        город: <?=$order["city"] ?><br/>
-                                        улица: <?=$order["street"] ?><br/>
-                                        дом: <?=$order["house"] ?><br/>
-                                        подъезд: <?=$order["podezd"] ?><br/>
-                                        этаж: <?=$order["floor"] ?><br/>
-                                        квартира: <?=$order["apartment"] ?><br/>
-                                        домофон: <?=$order["domofon"] ?>
-                                    <?php endif?>
+                                    город: <?=$order["city"] ?><br/>
+                                    дом: <?=$order["house"] ?><br/>
+                                    подъезд: <?=$order["podezd"] ?><br/>
+                                    этаж: <?=$order["floor"] ?><br/>
+                                    квартира: <?=$order["apartment"] ?><br/>
+                                    домофон: <?=$order["domofon"] ?>
                                 </td>
                                 <td>
                                     <?php foreach ($order["order_information"]["products"] as $key => $product): ?>
-                                        <?=($key+1)?>: <?=$product[0]?><br/>
+                                        <?=($key+1)?>: <?=$product[0]?> (Кол-во: <?=$product[1]["count"]?>)<br/>
                                     <?php endforeach; ?>
-                                    <br/>
-                                    Итого: <?=$order["order_information"]["final"]["Итого"]?>руб.
                                 </td>
-                                <td><a class="btn btn-primary" href="/order/edit?id=<?=$order["id"]?>">Редактировать</a></td>
+                                <td>
+                                    <div class="btn-group-vertical">
+                                        <a class="btn btn-primary" href="/order/edit?id=<?=$order["id"]?>">Редактировать</a>
+                                        <a class="btn btn-warning" href="/order/change-status?id=<?=$order["id"]?>">Выполнено</a>
+                                    </div>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>

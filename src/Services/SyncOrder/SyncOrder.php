@@ -4,6 +4,7 @@ namespace App\Services\SyncOrder;
 
 use App\Connect\Connect;
 use App\Repository\OrderBitrixRepository;
+use App\Repository\OrderRepository;
 use App\Services\Logger;
 use Doctrine\DBAL\DBALException;
 
@@ -13,6 +14,11 @@ class SyncOrder
      * @var Connect
      */
     private $dbal;
+
+    /**
+     * @var OrderRepository
+     */
+    private $orderRepository;
 
     /**
      * @var OrderBitrixRepository
@@ -31,6 +37,7 @@ class SyncOrder
     public function __construct()
     {
         $this->dbal = (new Connect())->connect();
+        $this->orderRepository = new OrderRepository();
         $this->orderBitrixRepository = new OrderBitrixRepository();
         $this->logger = (new Logger('sync_order'))->getLogger();
     }
@@ -41,11 +48,13 @@ class SyncOrder
     public function sync(): void
     {
         $orders = $this->orderBitrixRepository->findNewOrder();
-        $lastId = null;
         foreach ($orders as $order) {
             $order = $this->unserializable($order["C_FIELDS"]);
-            if ($lastId != $order["n_order"]) {
-                $lastId = $order["n_order"];
+            if (!$order["adress"]) {
+                continue;
+            }
+            $orderNumberValue = $this->orderRepository->findOrdersByOrderNumber($order["n_order"]);
+            if (false == $orderNumberValue) {
                 try {
                     $this->dbal->executeQuery(InsertQuery::query($order));
                 } catch (DBALException $e) {

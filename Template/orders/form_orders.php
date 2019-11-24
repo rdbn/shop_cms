@@ -102,9 +102,9 @@
                                 <th>
                                     <?php if (isset($requestValue["order_information"]["products"])): ?>
                                         <?php $count = count($requestValue["order_information"]["products"]); ?>
-                                        <button class="btn btn-primary add-form-order-product" type="button" data-count="<?=$count?>">Добавить заказ</button>
+                                        <button class="btn btn-primary add-form-order-product" type="button" data-count="<?=$count?>">Добавить товар</button>
                                     <?php else: ?>
-                                        <button class="btn btn-primary add-form-order-product" type="button" data-count="0">Добавить заказ</button>
+                                        <button class="btn btn-primary add-form-order-product" type="button" data-count="0">Добавить товар</button>
                                     <?php endif;?>
                                 </th>
                             </thead>
@@ -212,7 +212,7 @@
                                 <input name="create_order[order_information][orderInformation][Доставка]" class="form-control" type="text" value="Курьером" placeholder="Доставка" />
                             </div>
                         <?php endif; ?>
-                        <button class="btn btn-primary">Добавить</button>
+                        <button class="btn btn-primary">Сохранить</button>
                     </form>
                 </div>
             </div>
