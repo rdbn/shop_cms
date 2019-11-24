@@ -46,40 +46,58 @@
                         </div>
                         <div class="form-group">
                             <label for="create_order_order_tel">Телефон</label>
-                            <input required="required" id="create_order_order_tel" type="number" name="create_order[tel]" class="form-control" placeholder="Телефон заказчика" value="<?php if (isset($requestValue["tel"])): ?><?=$requestValue["tel"]?><?php endif ?>" />
+                            <input required="required" id="create_order_order_tel" type="text" name="create_order[tel]" class="form-control" placeholder="Телефон заказчика" value="<?php if (isset($requestValue["tel"])): ?><?=$requestValue["tel"]?><?php endif ?>" />
                             <p class="text-danger"><strong><?php if (isset($errorMessages["tel"])): ?><?=$errorMessages["tel"]?><?php endif ?></strong></p>
                         </div>
                         <h3>Адрес доставки:</h3>
-                        <div class="form-group">
-                            <label for="create_order_order_city">Город</label>
-                            <input id="create_order_order_city" type="text" name="create_order[city]" class="form-control" placeholder="Адрес заказчика(Город)" value="<?php if (isset($requestValue["city"])): ?><?=$requestValue["city"]?><?php endif ?>" />
-                            <p class="text-danger"><strong><?php if (isset($errorMessages["city"])): ?><?=$errorMessages["city"]?><?php endif ?></strong></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="create_order_order_house">Дом</label>
-                            <input id="create_order_order_house" type="text" name="create_order[house]" class="form-control" placeholder="Адрес заказчика(Дом)" value="<?php if (isset($requestValue["house"])): ?><?=$requestValue["house"]?><?php endif ?>" />
-                            <p class="text-danger"><strong><?php if (isset($errorMessages["house"])): ?><?=$errorMessages["house"]?><?php endif ?></strong></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="create_order_order_podezd">Подъезд</label>
-                            <input id="create_order_order_podezd" type="text" name="create_order[podezd]" class="form-control" placeholder="Адрес заказчика(Подъезд)" value="<?php if (isset($requestValue["podezd"])): ?><?=$requestValue["podezd"]?><?php endif ?>" />
-                            <p class="text-danger"><strong><?php if (isset($errorMessages["podezd"])): ?><?=$errorMessages["podezd"]?><?php endif ?></strong></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="create_order_order_apartment">Квартира</label>
-                            <input id="create_order_order_apartment" type="text" name="create_order[apartment]" class="form-control" placeholder="Адрес заказчика(Квартира)" value="<?php if (isset($requestValue["apartment"])): ?><?=$requestValue["apartment"]?><?php endif ?>" />
-                            <p class="text-danger"><strong><?php if (isset($errorMessages["apartment"])): ?><?=$errorMessages["apartment"]?><?php endif ?></strong></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="create_order_order_floor">Этаж</label>
-                            <input id="create_order_order_floor" type="text" name="create_order[floor]" class="form-control" placeholder="Адрес заказчика(Этаж)" value="<?php if (isset($requestValue["floor"])): ?><?=$requestValue["floor"]?><?php endif ?>" />
-                            <p class="text-danger"><strong><?php if (isset($errorMessages["floor"])): ?><?=$errorMessages["floor"]?><?php endif ?></strong></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="create_order_order_domofon">Домофон</label>
-                            <input id="create_order_order_domofon" type="text" name="create_order[domofon]" class="form-control" placeholder="Адрес заказчика(Домофон)" value="<?php if (isset($requestValue["domofon"])): ?><?=$requestValue["domofon"]?><?php endif ?>" />
-                            <p class="text-danger"><strong><?php if (isset($errorMessages["domofon"])): ?><?=$errorMessages["domofon"]?><?php endif ?></strong></p>
-                        </div>
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="create_order_order_city">Город</label>
+                                        <input id="create_order_order_city" type="text" name="create_order[city]" class="form-control" placeholder="Адрес заказчика(Город)" value="<?php if (isset($requestValue["city"])): ?><?=$requestValue["city"]?><?php endif ?>" />
+                                        <p class="text-danger"><strong><?php if (isset($errorMessages["city"])): ?><?=$errorMessages["city"]?><?php endif ?></strong></p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="create_order_order_house">Дом</label>
+                                        <input id="create_order_order_house" type="text" name="create_order[house]" class="form-control" placeholder="Адрес заказчика(Дом)" value="<?php if (isset($requestValue["house"])): ?><?=$requestValue["house"]?><?php endif ?>" />
+                                        <p class="text-danger"><strong><?php if (isset($errorMessages["house"])): ?><?=$errorMessages["house"]?><?php endif ?></strong></p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="create_order_order_podezd">Подъезд</label>
+                                        <input id="create_order_order_podezd" type="text" name="create_order[podezd]" class="form-control" placeholder="Адрес заказчика(Подъезд)" value="<?php if (isset($requestValue["podezd"])): ?><?=$requestValue["podezd"]?><?php endif ?>" />
+                                        <p class="text-danger"><strong><?php if (isset($errorMessages["podezd"])): ?><?=$errorMessages["podezd"]?><?php endif ?></strong></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="create_order_order_apartment">Квартира</label>
+                                        <input id="create_order_order_apartment" type="text" name="create_order[apartment]" class="form-control" placeholder="Адрес заказчика(Квартира)" value="<?php if (isset($requestValue["apartment"])): ?><?=$requestValue["apartment"]?><?php endif ?>" />
+                                        <p class="text-danger"><strong><?php if (isset($errorMessages["apartment"])): ?><?=$errorMessages["apartment"]?><?php endif ?></strong></p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="create_order_order_floor">Этаж</label>
+                                        <input id="create_order_order_floor" type="text" name="create_order[floor]" class="form-control" placeholder="Адрес заказчика(Этаж)" value="<?php if (isset($requestValue["floor"])): ?><?=$requestValue["floor"]?><?php endif ?>" />
+                                        <p class="text-danger"><strong><?php if (isset($errorMessages["floor"])): ?><?=$errorMessages["floor"]?><?php endif ?></strong></p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="create_order_order_domofon">Домофон</label>
+                                        <input id="create_order_order_domofon" type="text" name="create_order[domofon]" class="form-control" placeholder="Адрес заказчика(Домофон)" value="<?php if (isset($requestValue["domofon"])): ?><?=$requestValue["domofon"]?><?php endif ?>" />
+                                        <p class="text-danger"><strong><?php if (isset($errorMessages["domofon"])): ?><?=$errorMessages["domofon"]?><?php endif ?></strong></p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                         <h3>Информация о заказе:</h3>
                         <table id="order-information" class="table">
                             <thead>
@@ -155,7 +173,7 @@
                                 Сумма:
                                 <span id="total-sum" data-sum="<?=$final["Сумма"]?>">
                                     <?php if ($requestValue["sales"] == 0): ?>
-                                        <?=$final["Сумма"]?>
+                                        <?=$final["Сумма"]?>руб.
                                     <?php else: ?>
                                         <s><?=$final["Сумма"]?>руб.</s>: <?=($final["Сумма"]-($requestValue["sales"] * $final["Сумма"] / 100))?>руб.
                                     <?php endif; ?>
@@ -165,7 +183,7 @@
                                 <input id="input-final-total-sum" name="create_order[order_information][final][Итого]" type="hidden" value="<?=$final["Итого"]?>" />
                                 Итого: <span id="final-total-sum" data-sum="<?=$final["Итого"]?>">
                                     <?php if ($requestValue["sales"] == 0): ?>
-                                        <?=$final["Итого"]?>
+                                        <?=$final["Итого"]?>руб.
                                     <?php else: ?>
                                         <s><?=$final["Итого"]?>руб.</s>:
                                         <?=($final["Итого"]-($requestValue["sales"] * $final["Итого"] / 100)+$final["Доставка"])?>руб.
@@ -235,7 +253,7 @@
                         totalSum += totalPrice;
                     }
                 });
-                $("#total-sum").html(totalSum);
+                $("#total-sum").html(totalSum + 'руб.');
                 $("#input-total-sum").val(totalSum);
 
                 return totalSum;
@@ -244,7 +262,7 @@
                 var valueTotalSum = totalSum();
                 var sumDelivery = parseFloat($("#sum-delivery").attr("data-sum"));
 
-                $("#final-total-sum").html(parseFloat(valueTotalSum) + sumDelivery);
+                $("#final-total-sum").html(parseFloat(valueTotalSum) + sumDelivery + 'руб.');
                 $("#input-final-total-sum").val(parseFloat(valueTotalSum) + sumDelivery);
             }
             $(document).ready(function () {
@@ -269,6 +287,7 @@
                     $("#final-total-sum").html('<s>'+$("#input-final-total-sum").val()+'руб.</s>: ' + (sumDelivery + valueTotalSum) + 'руб.');
                 });
                 $(".disabled-sale").click(function () {
+                    $("#create_order_sales").val(0);
                     $(this).parent().find(".sales").each(function () {
                         $(this).removeClass("active");
                     });
