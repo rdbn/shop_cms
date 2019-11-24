@@ -53,7 +53,15 @@
                         <?php foreach ($orders as $order): ?>
                             <tr>
                                 <td><?=$order["id"] ?></td>
-                                <td><?=$order["order_information"]["final"]["Итого"]?>руб.</td>
+                                <td>
+                                    <?php $price = $order["order_information"]["final"]["Итого"]; ?>
+                                    <?php if ($order["sales"] == 0): ?>
+                                        <?=$price?>руб.
+                                    <?php else: ?>
+                                        <s><?=$price?>руб.</s><br>
+                                        <?=($price-($order["sales"] * $price / 100))?>руб.
+                                    <?php endif; ?>
+                                </td>
                                 <td><?=$order["order_information"]["orderInformation"]["Вид оплаты"];?></td>
                                 <td><?=(new \DateTime($order["order_date"]))->format("H:i:s d.m.Y") ?></td>
                                 <td><?=$order["order_username"] ?></td>

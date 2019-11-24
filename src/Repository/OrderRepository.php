@@ -50,6 +50,7 @@ class OrderRepository
             ->addSelect("o.apartment")
             ->addSelect("o.floor")
             ->addSelect("o.domofon")
+            ->addSelect("o.sales")
             ->from("`order`", "o")
             ->andWhere($qb->expr()->eq("o.status", OrderDto::STATUS["process"]))
             ->orderBy("o.id", "DESC")

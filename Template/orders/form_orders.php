@@ -51,21 +51,9 @@
                         </div>
                         <h3>Адрес доставки:</h3>
                         <div class="form-group">
-                            <h4>Если заказ пришел с сайта:</h4>
-                            <label for="create_order_order_address"></label>
-                            <input id="create_order_order_address" type="text" name="create_order[address]" class="form-control" placeholder="Адрес заказчика" value="<?php if (isset($requestValue["address"])): ?><?=$requestValue["address"]?><?php endif ?>" />
-                            <p class="text-danger"><strong><?php if (isset($errorMessages["address"])): ?><?=$errorMessages["address"]?><?php endif ?></strong></p>
-                        </div>
-                        <h4>Если заказ заведен в ручную:</h4>
-                        <div class="form-group">
                             <label for="create_order_order_city">Город</label>
                             <input id="create_order_order_city" type="text" name="create_order[city]" class="form-control" placeholder="Адрес заказчика(Город)" value="<?php if (isset($requestValue["city"])): ?><?=$requestValue["city"]?><?php endif ?>" />
                             <p class="text-danger"><strong><?php if (isset($errorMessages["city"])): ?><?=$errorMessages["city"]?><?php endif ?></strong></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="create_order_order_street">Улица</label>
-                            <input id="create_order_order_street" type="text" name="create_order[street]" class="form-control" placeholder="Адрес заказчика(Улица)" value="<?php if (isset($requestValue["street"])): ?><?=$requestValue["street"]?><?php endif ?>" />
-                            <p class="text-danger"><strong><?php if (isset($errorMessages["street"])): ?><?=$errorMessages["street"]?><?php endif ?></strong></p>
                         </div>
                         <div class="form-group">
                             <label for="create_order_order_house">Дом</label>
@@ -151,11 +139,12 @@
                             </tbody>
                         </table>
                         <div class="form-group">
+                            <input id="create_order_sales" type="hidden" name="create_order[sale]" value="<?=$requestValue["sales"]?>" />
                             <h5>Скидка:</h5>
                             <div id="btn-group" class="btn-group">
-                                <button type="button" class="btn btn-default">10%</button>
-                                <button type="button" class="btn btn-default">20%</button>
-                                <button type="button" class="btn btn-default">30%</button>
+                                <button type="button" class="sales btn btn-default <?php if ($requestValue["sales"] == 10): ?>active<?php endif; ?>" data-sales="10">10%</button>
+                                <button type="button" class="sales btn btn-default <?php if ($requestValue["sales"] == 20): ?>active<?php endif; ?>" data-sales="20">20%</button>
+                                <button type="button" class="sales btn btn-default <?php if ($requestValue["sales"] == 30): ?>active<?php endif; ?>" data-sales="30">30%</button>
                                 <button type="button" class="btn btn-default disabled-sale">Отменить скидку</button>
                             </div>
                         </div>
@@ -163,11 +152,25 @@
                             <?php $final = $requestValue["order_information"]["final"]; ?>
                             <div class="form-group">
                                 <input id="input-total-sum" name="create_order[order_information][final][Сумма]" type="hidden" value="<?=$final["Сумма"]?>" />
-                                Сумма: <span id="total-sum" data-sum="<?=$final["Сумма"]?>"><?=$final["Сумма"]?></span>руб.<br/>
+                                Сумма:
+                                <span id="total-sum" data-sum="<?=$final["Сумма"]?>">
+                                    <?php if ($requestValue["sales"] == 0): ?>
+                                        <?=$final["Сумма"]?>
+                                    <?php else: ?>
+                                        <s><?=$final["Сумма"]?>руб.</s>: <?=($final["Сумма"]-($requestValue["sales"] * $final["Сумма"] / 100))?>руб.
+                                    <?php endif; ?>
+                                </span><br/>
                                 <input name="create_order[order_information][final][Доставка]" type="hidden" value="<?=$final["Доставка"]?>" />
                                 Доставка: <span id="sum-delivery" data-sum="<?=$final["Доставка"]?>"><?=$final["Доставка"]?></span>руб.<br/>
                                 <input id="input-final-total-sum" name="create_order[order_information][final][Итого]" type="hidden" value="<?=$final["Итого"]?>" />
-                                Итого: <span id="final-total-sum" data-sum="<?=$final["Итого"]?>"><?=$final["Итого"]?></span>руб.<br/>
+                                Итого: <span id="final-total-sum" data-sum="<?=$final["Итого"]?>">
+                                    <?php if ($requestValue["sales"] == 0): ?>
+                                        <?=$final["Итого"]?>
+                                    <?php else: ?>
+                                        <s><?=$final["Итого"]?>руб.</s>:
+                                        <?=($final["Итого"]-($requestValue["sales"] * $final["Итого"] / 100)+$final["Доставка"])?>руб.
+                                    <?php endif; ?>
+                                </span><br/>
                             </div>
                         <?php else: ?>
                             <div class="form-group">
@@ -249,19 +252,26 @@
                     $(this).parent().parent().remove();
                     finalTotalSum();
                 });
-                $("#btn-group button").click(function () {
+                $("#btn-group .sales").click(function () {
+                    $("#create_order_sales").val($(this).attr("data-sales"));
+                    if (!$(this).hasClass("active")) {
+                        $(this).parent().find(".sales").each(function () {
+                            $(this).removeClass("active");
+                        });
+                        $(this).addClass("active");
+                    }
                     var saleValue = parseInt($(this).html());
                     var sumDelivery = parseFloat($("#sum-delivery").attr("data-sum"));
                     var valueTotalSum = totalSum();
 
                     valueTotalSum -= (saleValue * valueTotalSum / 100);
-                    $("#total-sum").html(valueTotalSum);
-                    $("#input-total-sum").val(valueTotalSum);
-
-                    $("#final-total-sum").html(sumDelivery + valueTotalSum);
-                    $("#input-final-total-sum").html(sumDelivery + valueTotalSum);
+                    $("#total-sum").html('<s>'+$("#input-total-sum").val()+'руб.</s>: ' + valueTotalSum + 'руб.');
+                    $("#final-total-sum").html('<s>'+$("#input-final-total-sum").val()+'руб.</s>: ' + (sumDelivery + valueTotalSum) + 'руб.');
                 });
                 $(".disabled-sale").click(function () {
+                    $(this).parent().find(".sales").each(function () {
+                        $(this).removeClass("active");
+                    });
                     finalTotalSum();
                 });
                 $("#order-information tbody").on("click", ".add-order", function() {

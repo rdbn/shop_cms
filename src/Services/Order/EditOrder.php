@@ -44,6 +44,7 @@ class EditOrder
                 "apartment" => $order->apartment,
                 "floor" => $order->floor,
                 "domofon" => $order->domofon,
+                "sales" => $order->sales,
             ], [
                 "id" => $order->id,
             ]);

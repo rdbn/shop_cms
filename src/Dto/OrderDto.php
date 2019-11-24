@@ -99,6 +99,11 @@ class OrderDto
     public $domofon;
 
     /**
+     * @var int
+     */
+    public $sales;
+
+    /**
      * OrderCreate constructor.
      * @throws \Exception
      */
