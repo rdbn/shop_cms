@@ -97,6 +97,25 @@
                     </table>
                 </div>
             </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <?php if ($page > 1): ?>
+                    <li>
+                        <a href="/?page=<?=($page-1)?>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <?php endif; ?>
+                    <li><a href="#"><?=$page?></a></li>
+                    <?php if ($limit == count($orders)): ?>
+                    <li>
+                        <a href="/?page=<?=($page+1)?>" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
         </div>
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

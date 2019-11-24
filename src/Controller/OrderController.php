@@ -22,9 +22,12 @@ class OrderController extends AbstractController
      */
     public function orders(): Response
     {
+        $page = $this->request->query->getInt("page", 1);
+        $limit = $this->request->query->getInt("limit", 20);
+
         $orderFilter = new OrderFilterDto();
-        $orderFilter->page = $this->request->query->getInt("page", 1);
-        $orderFilter->limit = $this->request->query->getInt("limit", 20);
+        $orderFilter->page = $page;
+        $orderFilter->limit = $limit;
 
         try {
             $orders = (new OrderRepository())->findOrdersByFilter($orderFilter);
@@ -37,7 +40,9 @@ class OrderController extends AbstractController
         }
 
         return $this->renderTemplate("orders/orders", [
-            "orders" => $orders
+            "orders" => $orders,
+            "limit" => $limit,
+            "page" => $page,
         ]);
     }
 
