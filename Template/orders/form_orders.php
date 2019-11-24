@@ -99,6 +99,7 @@
                             </tr>
                         </table>
                         <h3>Информация о заказе:</h3>
+                        <p class="text-danger"><strong><?php if (isset($errorMessages["orderInformation"])): ?><?=$errorMessages["orderInformation"]?><?php endif ?></strong></p>
                         <table id="order-information" class="table">
                             <thead>
                                 <th>Товар</th>

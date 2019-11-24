@@ -55,7 +55,7 @@ class OrderValidator
 
         $this->order->price = $request["order_information"]["final"]["Сумма"];
         $this->order->orderUsername = $request["order_username"];
-        if (0 == count($request["order_information"])) {
+        if (isset($request["order_information"]["products"])) {
             $this->order->orderInformation = (new ParserInformation())->arrayToString($request["order_information"]);
         }
         $this->order->tel = $request["tel"];
