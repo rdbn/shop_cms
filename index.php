@@ -44,6 +44,11 @@ $routes->add('change_status', new Route('/order/change-status', [
     'method' => 'changeStatus'
 ]));
 
+$routes->add('print_version', new Route('/order/print-version', [
+    '_controller' => OrderController::class,
+    'method' => 'printVersion'
+]));
+
 $routes->add('search_product', new Route('/product/search', [
     '_controller' => ProductController::class,
     'method' => 'search'

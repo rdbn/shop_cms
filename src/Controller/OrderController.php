@@ -115,4 +115,22 @@ class OrderController extends AbstractController
 
         $this->redirect();
     }
+
+    /**
+     * @return Response
+     * @throws \Exception
+     */
+    public function printVersion(): Response
+    {
+        $order = (new OrderRepository())->findOneById($this->request->query->getInt("id", 0));
+        if (count($order) == 0) {
+            throw new ResourceNotFoundException();
+        }
+
+        $order["order_information"] = (new ParserInformation())->stringToArray($order["order_information"]);
+
+        return $this->renderTemplate("orders/printVersion", [
+            "order" => $order,
+        ]);
+    }
 }

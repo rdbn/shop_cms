@@ -88,6 +88,7 @@
                                         <div class="btn-group-vertical">
                                             <a class="btn btn-primary" href="/order/edit?id=<?=$order["id"]?>">Редактировать</a>
                                             <a class="btn btn-warning" href="/order/change-status?id=<?=$order["id"]?>">Выполнено</a>
+                                            <a class="btn btn-success" href="/order/print-version?id=<?=$order["id"]?>">Версия для печати</a>
                                         </div>
                                     <?php endif; ?>
                                 </td>
