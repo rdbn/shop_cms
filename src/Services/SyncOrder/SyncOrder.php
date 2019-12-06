@@ -49,14 +49,14 @@ class SyncOrder
     {
         $orders = $this->orderBitrixRepository->findNewOrder();
         foreach ($orders as $order) {
-            $order = $this->unserializable($order["C_FIELDS"]);
-            if (!$order["adress"]) {
+            $orderInformation = $this->unserializable($order["C_FIELDS"]);
+            if (!$orderInformation["n_order"]) {
                 continue;
             }
-            $orderNumberValue = $this->orderRepository->findOrdersByOrderNumber($order["n_order"]);
+            $orderNumberValue = $this->orderRepository->findOrdersByOrderNumber($orderInformation["n_order"]);
             if (false == $orderNumberValue) {
                 try {
-                    $this->dbal->executeQuery(InsertQuery::query($order));
+                    $this->dbal->executeQuery(InsertQuery::query($orderInformation));
                 } catch (DBALException $e) {
                     $this->logger->error($e->getMessage());
                 }
@@ -68,7 +68,7 @@ class SyncOrder
      * @param string $string
      * @return array
      */
-    private function unserializable(string $string): array
+    private function unserializable(string $string)
     {
         $string2 = preg_replace_callback('!s:(\d+):"(.*?)";!s', function($m) {
             $len = strlen($m[2]);

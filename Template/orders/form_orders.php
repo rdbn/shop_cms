@@ -214,24 +214,37 @@
                             <?php $orderInformation = $requestValue["order_information"]["orderInformation"]; ?>
                             <h5>Дополнительная информация:</h5>
                             <div class="form-group">
-                                <input name="create_order[order_information][orderInformation][Вид оплаты]" type="hidden" value="<?=$orderInformation["Вид оплаты"]?>" />
-                                Вид оплаты: <?=$orderInformation["Вид оплаты"]?><br/>
-                                <input name="create_order[order_information][orderInformation][Доставка]" type="hidden" value="<?=$orderInformation["Доставка"]?>" />
-                                Доставка: <?=$orderInformation["Доставка"]?><br/>
-                                <input name="create_order[order_information][orderInformation][Адрес доставки]" type="hidden" value="<?=$orderInformation["Адрес доставки"]?>" />
-                                Адрес доставки: <?=$orderInformation["Адрес доставки"]?><br/>
+                                <label for="create_order_payment_type">Оплата</label>
+                                <select id="create_order_payment_type" name="create_order[order_information][orderInformation][Вид оплаты]" class="form-control">
+                                    <option <?php if (trim($orderInformation["Вид оплаты"]) == "Оплата наличными"): ?>selected<?php endif; ?> value="Оплата наличными">Оплата наличными</option>
+                                    <option <?php if (trim($orderInformation["Вид оплаты"]) == "Оплата картой"): ?>selected<?php endif; ?> value="Оплата картой">Оплата картой</option>
+                                </select>
                             </div>
+                            <div class="form-group">
+                                <label for="create_order_delivery">Доставка</label>
+                                <select id="create_order_delivery" name="create_order[order_information][orderInformation][Доставка]" class="form-control">
+                                    <option <?php if (trim($orderInformation["Доставка"]) == "самовывоз"): ?>selected<?php endif; ?> value="самовывоз">самовывоз</option>
+                                    <option <?php if (trim($orderInformation["Доставка"]) == "курьером"): ?>selected<?php endif; ?> value="курьером">курьером</option>
+                                </select>
+                            </div>
+                            <input name="create_order[order_information][orderInformation][Адрес доставки]" type="hidden" value="<?=$orderInformation["Адрес доставки"]?>" />
                         <?php else: ?>
                             <input name="create_order[order_information][orderInformation][Адрес доставки]" type="hidden" value="" />
                             <h5>Дополнительная информация:</h5>
                             <div class="form-group">
-                                <select name="create_order[order_information][orderInformation][Вид оплаты]" class="form-control">
+                                <label for="create_order_payment_type">Оплата</label>
+                                <select id="create_order_payment_type" name="create_order[order_information][orderInformation][Вид оплаты]" class="form-control">
                                     <option value="Оплата наличными">Оплата наличными</option>
                                     <option value="Оплата картой">Оплата картой</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input name="create_order[order_information][orderInformation][Доставка]" class="form-control" type="text" value="Курьером" placeholder="Доставка" />
+                                <label for="create_order_delivery">Доставка</label>
+                                <select id="create_order_delivery" name="create_order[order_information][orderInformation][Доставка]" class="form-control">
+                                    <option value="самовывоз">самовывоз</option>
+                                    <option value="курьером">курьером</option>
+                                </select>
+                                <input name="create_order[order_information][orderInformation][Адрес доставки]" type="hidden" value="" />
                             </div>
                         <?php endif; ?>
                         <div class="form-group">
