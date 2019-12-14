@@ -5,7 +5,9 @@ namespace App\Services\SyncOrder;
 use App\Connect\Connect;
 use App\Repository\OrderBitrixRepository;
 use App\Repository\OrderRepository;
+use App\Repository\ProductRepository;
 use App\Services\Logger;
+use App\Services\Order\ParserInformation;
 use Doctrine\DBAL\DBALException;
 
 class SyncOrder
@@ -56,7 +58,17 @@ class SyncOrder
             $orderNumberValue = $this->orderRepository->findOrdersByOrderNumber($orderInformation["n_order"]);
             if (false == $orderNumberValue) {
                 try {
-                    $this->dbal->executeQuery(InsertQuery::query($orderInformation));
+                    $this->dbal->executeQuery(InsertOrderQuery::query($orderInformation));
+                    $orderId = $this->dbal->lastInsertId();
+                    $parserOrderInformation = (new ParserInformation())->stringToArray($orderInformation["order_txt"]);
+                    foreach ($parserOrderInformation["products"] as $product) {
+                        $productId = (new ProductRepository())->findProductByName($product["name"]);
+                        if (false == $productId) {
+                            $this->dbal->executeQuery(InsertProductQuery::query($product["name"], $product["price"]));
+                            $productId = $this->dbal->lastInsertId();
+                        }
+                        $this->dbal->executeQuery(InsertStatisticOrderQuery::query($product, $orderId, $productId));
+                    }
                 } catch (DBALException $e) {
                     $this->logger->error($e->getMessage());
                 }

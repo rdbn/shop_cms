@@ -2,6 +2,7 @@
 
 use App\Controller\OrderController;
 use App\Controller\SecurityController;
+use App\Controller\StatisticController;
 use App\Controller\ProductController;
 use App\Services\Logger;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
@@ -52,6 +53,16 @@ $routes->add('print_version', new Route('/order/print-version', [
 $routes->add('search_product', new Route('/product/search', [
     '_controller' => ProductController::class,
     'method' => 'search'
+]));
+
+$routes->add('statistics', new Route('/statistics', [
+    '_controller' => StatisticController::class,
+    'method' => 'statistic'
+]));
+
+$routes->add('statistic_search_product', new Route('/statistics/product/search', [
+    '_controller' => StatisticController::class,
+    'method' => 'searchProduct'
 ]));
 
 $routes->add('login', new Route('/login', [

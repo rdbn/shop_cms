@@ -24,7 +24,7 @@
                         <ul class="nav navbar-nav">
                             <li><a href="/">Список заказов</a></li>
                             <li class="active"><a href="/order/create">Добавить заказ</a></li>
-                            <li><a href="#">Склад</a></li>
+                            <li><a href="/statistics">Статистика</a></li>
                         </ul>
                     </div>
                 </div>

@@ -33,7 +33,7 @@ class SecurityController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function registration()
+    public function registration(): Response
     {
         $authorizationValidate = new RegistrationValidation();
         $authorizationValidate->handlerRequest($this->request);

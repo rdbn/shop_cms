@@ -23,7 +23,7 @@
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="/">Список заказов</a></li>
                             <li><a href="/order/create">Добавить заказ</a></li>
-                            <li><a href="#">Склад</a></li>
+                            <li><a href="/statistics">Статистика</a></li>
                         </ul>
                     </div>
                 </div>

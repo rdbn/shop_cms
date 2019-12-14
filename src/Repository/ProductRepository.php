@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Connect\ConnectBitrix;
+use App\Connect\Connect;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 
@@ -14,12 +14,27 @@ class ProductRepository
     private $dbal;
 
     /**
-     * ProductRepository constructor.
+     * ProductBitrixRepository constructor.
      * @throws DBALException
      */
     public function __construct()
     {
-        $this->dbal = (new ConnectBitrix())->connect();
+        $this->dbal = (new Connect())->connect();
+    }
+
+    /**
+     * @param string $name
+     * @return int|false
+     * @throws DBALException
+     */
+    public function findProductByName(string $name)
+    {
+        $name = mb_strtolower($name, "utf-8");
+        $stmt = $this->dbal->prepare("SELECT p.id FROM product p WHERE p.name = :name_product");
+        $stmt->bindValue("name_product", $name, \PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchColumn();
     }
 
     /**
@@ -27,18 +42,10 @@ class ProductRepository
      * @return array
      * @throws DBALException
      */
-    public function findProductByName(string $name): array
+    public function findProductByLikeName(string $name): array
     {
-        $name = mb_strtoupper($name, "utf-8");
-        $stmt = $this->dbal->prepare("
-        SELECT p.NAME as name, MAX(biep.VALUE_NUM) as price FROM b_iblock_element p
-            LEFT JOIN b_iblock_element_property biep on p.ID = biep.IBLOCK_ELEMENT_ID
-        WHERE
-            p.NAME LIKE :name_product
-        GROUP BY p.NAME
-        HAVING price IS NOT NULL
-        LIMIT 20;
-        ");
+        $name = mb_strtolower($name, "utf-8");
+        $stmt = $this->dbal->prepare("SELECT p.name FROM product p WHERE p.name LIKE :name_product LIMIT 20;");
         $stmt->bindValue("name_product", "%{$name}%", \PDO::PARAM_STR);
         $stmt->execute();
 

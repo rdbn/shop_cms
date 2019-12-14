@@ -2,7 +2,7 @@
 
 namespace App\Services\SyncOrder;
 
-class InsertQuery
+class InsertOrderQuery
 {
     private const INSERT_SQL = '
     INSERT INTO `order`(

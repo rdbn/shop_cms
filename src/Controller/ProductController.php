@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use App\Repository\ProductRepository;
+use App\Repository\ProductBitrixRepository;
 use Doctrine\DBAL\DBALException;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends AbstractController
 {
-    public function search()
+    public function search(): Response
     {
         try {
-            $products = (new ProductRepository())
+            $products = (new ProductBitrixRepository())
                 ->findProductByName($this->request->query->get("query", ""));
         } catch (DBALException $e) {
             $products = [];
