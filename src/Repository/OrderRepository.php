@@ -3,9 +3,11 @@
 namespace App\Repository;
 
 use App\Connect\Connect;
+use App\Dto\OrderDto;
 use App\Dto\OrderFilterDto;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
+use function Doctrine\DBAL\Query\QueryBuilder;
 
 class OrderRepository
 {
@@ -32,31 +34,17 @@ class OrderRepository
     {
         $qb = $this->dbal->createQueryBuilder();
         $qb
-            ->addSelect("o.id")
-            ->addSelect("o.order_number")
-            ->addSelect("o.price")
-            ->addSelect("o.count_product")
-            ->addSelect("o.order_date")
-            ->addSelect("o.order_username")
-            ->addSelect("o.order_information")
-            ->addSelect("o.tel")
-            ->addSelect("o.email")
-            ->addSelect("o.address")
-            ->addSelect("o.city")
-            ->addSelect("o.street")
-            ->addSelect("o.house")
-            ->addSelect("o.podezd")
-            ->addSelect("o.apartment")
-            ->addSelect("o.floor")
-            ->addSelect("o.domofon")
-            ->addSelect("o.sales")
-            ->addSelect("o.status")
-            ->addSelect("o.message")
+            ->addSelect("o.*")
             ->from("`order`", "o")
+            ->andWhere($qb->expr()->neq("o.status", OrderDto::STATUS["delete"]))
             ->orderBy("o.id", "DESC")
             ->setFirstResult(($filter->page - 1) * $filter->limit)
             ->setMaxResults($filter->limit)
         ;
+
+        if ($filter->tel) {
+            $qb->andWhere($qb->expr()->eq("o.tel", (int)$filter->tel));
+        }
 
         $stmt = $this->dbal->prepare($qb->getSQL());
         $stmt->execute();

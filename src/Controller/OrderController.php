@@ -26,6 +26,7 @@ class OrderController extends AbstractController
         $limit = $this->request->query->getInt("limit", 20);
 
         $orderFilter = new OrderFilterDto();
+        $orderFilter->tel = $this->request->query->get("tel", null);
         $orderFilter->page = $page;
         $orderFilter->limit = $limit;
 
@@ -40,9 +41,8 @@ class OrderController extends AbstractController
         }
 
         return $this->renderTemplate("orders/orders", [
+            "orderFilter" => $orderFilter,
             "orders" => $orders,
-            "limit" => $limit,
-            "page" => $page,
         ]);
     }
 
@@ -108,10 +108,21 @@ class OrderController extends AbstractController
             throw new ResourceNotFoundException();
         }
 
-        (new Connect())->connect()
-            ->update("`order`", [
-                "status" => OrderDto::STATUS["end"]
-            ], ["id" => $order["id"]]);
+        switch ($this->request->query->getInt("status")) {
+            case OrderDto::STATUS["end"]:
+                $status = OrderDto::STATUS["end"];
+                break;
+            case OrderDto::STATUS["in_work"]:
+                $status = OrderDto::STATUS["in_work"];
+                break;
+            case OrderDto::STATUS["delete"]:
+                $status = OrderDto::STATUS["delete"];
+                break;
+            default:
+                throw new ResourceNotFoundException();
+        }
+
+        (new Connect())->connect()->update("`order`", ["status" => $status], ["id" => $order["id"]]);
 
         $this->redirect();
     }

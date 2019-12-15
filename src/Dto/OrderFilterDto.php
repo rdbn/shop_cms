@@ -8,12 +8,7 @@ class OrderFilterDto
     /**
      * @var string
      */
-    public $name;
-
-    /**
-     * @var float
-     */
-    public $price;
+    public $tel;
 
     /**
      * @var int

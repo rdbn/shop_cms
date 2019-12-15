@@ -1,3 +1,8 @@
+<?
+if(isset($_GET['get_orders']) || isset($_GET['get_table'])){
+    require_once(__DIR__.'/ajax_load.php');
+}
+?>
 <!doctype html>
 <html>
     <head>
@@ -37,10 +42,21 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
+                    <form method="get" class="form-inline">
+                        <div class="form-group">
+                            <input type="number" class="form-control" name="tel" placeholder="Номер телефона" value="<?=$orderFilter->tel?>" />
+                        </div>
+                        <button class="btn btn-primary">Найти</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
                     <table class="table">
                         <thead>
                             <th>id</th>
                             <th>Цена заказа</th>
+                            <th>Доставка</th>
                             <th>Тип оплаты</th>
                             <th>Дата заказа</th>
                             <th>Имя заказчика</th>
@@ -52,7 +68,10 @@
                         </thead>
                         <tbody>
                         <?php foreach ($orders as $order): ?>
-                            <tr <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["end"]): ?>class="text-muted"<?php endif; ?>>
+                            <tr
+                                <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["end"]): ?>class="text-muted"<?php endif; ?>
+                                <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["in_work"]): ?>class="text-danger"<?php endif; ?>
+                            >
                                 <td><?=$order["id"] ?></td>
                                 <td>
                                     <?php $price = $order["order_information"]["final"]["Итого"]; ?>
@@ -63,6 +82,7 @@
                                         <?=($price-($order["sales"] * $price / 100))?>руб.
                                     <?php endif; ?>
                                 </td>
+                                <td><?=$order["order_information"]["orderInformation"]["Доставка"]?></td>
                                 <td><?=$order["order_information"]["orderInformation"]["Вид оплаты"];?></td>
                                 <td><?=(new \DateTime($order["order_date"]))->format("H:i:s d.m.Y") ?></td>
                                 <td><?=$order["order_username"] ?></td>
@@ -84,13 +104,17 @@
                                     <?=$order["message"]?>
                                 </td>
                                 <td>
-                                    <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["process"]): ?>
-                                        <div class="btn-group-vertical">
+                                    <div class="btn-group-vertical">
+                                        <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["process"] || $order["status"] == \App\Dto\OrderDto::STATUS["in_work"]): ?>
                                             <a class="btn btn-primary" href="/order/edit?id=<?=$order["id"]?>">Редактировать</a>
-                                            <a class="btn btn-warning" href="/order/change-status?id=<?=$order["id"]?>">Выполнено</a>
+                                            <a class="btn btn-warning" href="/order/change-status?id=<?=$order["id"]?>&status=<?=\App\Dto\OrderDto::STATUS["end"]?>">Выполнено</a>
                                             <a class="btn btn-success" href="/order/print-version?id=<?=$order["id"]?>">Версия для печати</a>
-                                        </div>
-                                    <?php endif; ?>
+                                            <?php if ($order["status"] != \App\Dto\OrderDto::STATUS["in_work"]): ?>
+                                                <a class="btn btn-default" href="/order/change-status?id=<?=$order["id"]?>&status=<?=\App\Dto\OrderDto::STATUS["in_work"]?>">В работе</a>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                        <a class="btn btn-danger" href="/order/change-status?id=<?=$order["id"]?>&status=<?=\App\Dto\OrderDto::STATUS["delete"]?>">Удалить</a>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -100,17 +124,17 @@
             </div>
             <nav aria-label="Page navigation">
                 <ul class="pagination">
-                    <?php if ($page > 1): ?>
+                    <?php if ($orderFilter->page > 1): ?>
                     <li>
-                        <a href="/?page=<?=($page-1)?>" aria-label="Previous">
+                        <a href="/?page=<?=($orderFilter->page-1)?>" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <?php endif; ?>
-                    <li><a href="#"><?=$page?></a></li>
-                    <?php if ($limit == count($orders)): ?>
+                    <li><a href="#"><?=$orderFilter->page?></a></li>
+                    <?php if ($orderFilter->limit == count($orders)): ?>
                     <li>
-                        <a href="/?page=<?=($page+1)?>" aria-label="Next">
+                        <a href="/?page=<?=($orderFilter->page+1)?>" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -119,9 +143,15 @@
             </nav>
         </div>
 
+        <script>
+            var current_page = '<?echo $page?>';
+        </script>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script src="assets/js/ajax_load.js" crossorigin="anonymous"></script>
+        <script src="assets/js/print.min.js" crossorigin="anonymous"></script>
+        <script src="assets/js/print.js" crossorigin="anonymous"></script>
     </body>
 </html>

@@ -39,6 +39,7 @@ class EditOrder
                 "email" => $order->email,
                 "address" => $order->address,
                 "city" => $order->city,
+                "street" => $order->street,
                 "house" => $order->house,
                 "podezd" => $order->podezd,
                 "apartment" => $order->apartment,
@@ -46,6 +47,9 @@ class EditOrder
                 "domofon" => $order->domofon,
                 "sales" => $order->sales,
                 "message" => $order->message,
+                "count_persons" => $order->countPersons,
+                "surrender" => $order->surrender,
+                "courier_name" => $order->courierName,
             ], [
                 "id" => $order->id,
             ]);

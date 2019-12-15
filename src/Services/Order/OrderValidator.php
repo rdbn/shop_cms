@@ -60,6 +60,7 @@ class OrderValidator
         }
         $this->order->tel = $request["tel"];
         $this->order->city = $request["city"];
+        $this->order->street = $request["street"];
         $this->order->house = $request["house"];
         $this->order->podezd = $request["podezd"];
         $this->order->apartment = $request["apartment"];
@@ -67,6 +68,9 @@ class OrderValidator
         $this->order->domofon = $request["domofon"];
         $this->order->sales = $request["sale"];
         $this->order->message = $request["message"];
+        $this->order->countPersons = $request["count_persons"];
+        $this->order->surrender = $request["surrender"];
+        $this->order->courierName = $request["courier_name"];
 
         $errors = $this->validator->validate($this->order);
         if ($errors->count() > 0) {

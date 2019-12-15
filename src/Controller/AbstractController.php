@@ -41,7 +41,10 @@ class AbstractController
         foreach ($variableTemplate as $nameVariable => $valueVariable) {
             ${$nameVariable} = $valueVariable;
         }
-        $template = include_once(__DIR__ . "/../../Template/{$templateName}.php");
+
+        ob_start();
+        include_once(__DIR__ . "/../../Template/{$templateName}.php");
+        $template = ob_get_clean();
         if (!$template) {
             throw new \Exception("Template not found");
         }

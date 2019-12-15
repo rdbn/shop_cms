@@ -11,6 +11,8 @@ class OrderDto
     const STATUS = [
         "process" => 1,
         "end" => 2,
+        "in_work" => 3,
+        "delete" => 4,
     ];
 
     /**
@@ -109,6 +111,21 @@ class OrderDto
     public $message;
 
     /**
+     * @var int
+     */
+    public $countPersons;
+
+    /**
+     * @var float
+     */
+    public $surrender;
+
+    /**
+     * @var string
+     */
+    public $courierName;
+
+    /**
      * OrderCreate constructor.
      * @throws \Exception
      */
@@ -122,7 +139,7 @@ class OrderDto
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
-        $metadata->addConstraint(new AddressOrder());
+//        $metadata->addConstraint(new AddressOrder());
         $metadata->addPropertyConstraint("orderUsername", new Assert\NotBlank());
         $metadata->addPropertyConstraint("orderInformation", new Assert\NotBlank());
         $metadata->addPropertyConstraint("tel", new Assert\NotBlank());

@@ -36,8 +36,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <form method="get" class="form-inline">
-                        <input type="hidden" name="page" value="<?=$statisticFilterDto->page?>">
-                        <input type="hidden" name="limit" value="<?=$statisticFilterDto->limit?>">
                         <div class="form-group">
                             <input id="date" name="date" required="required" type="text" class="form-control" placeholder="Дата" value="<?=$statisticFilterDto->date?>" />
                         </div>
@@ -70,6 +68,8 @@
                         <div class="form-group">
                             <input id="product" type="text" class="form-control" placeholder="Название продукта" />
                         </div>
+                        <input type="hidden" name="page" value="<?=$statisticFilterDto->page?>" />
+                        <input type="hidden" name="limit" value="<?=$statisticFilterDto->limit?>" />
                         <button class="btn btn-primary">Фильтровать</button>
                     </form>
                 </div>

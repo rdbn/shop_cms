@@ -7,16 +7,22 @@
 
         <title>Версия для печати</title>
     </head>
-    <body>
+    <body style="font-size: 18px;">
         <p>******************************************************************</p>
-        <p>SushiStreet</p>
+        <p>My-fishka.ru</p>
         <p>******************************************************************</p>
         <p>Клиент: <?=$order["order_username"]?></p>
+        <p>Тел: <?=$order["tel"]?></p>
         <p>
+            Адрес: <br/>
             г. <?=$order["city"]?>, д. <?=$order["house"]?>, кв. <?=$order["apartment"]?>, п. <?=$order["podezd"]?>,
-            эт. <?=$order["floor"]?> домофон: <?=$order["domofon"]?>
+            эт. <?=$order["floor"]?>
         </p>
-        <p><?=$order["tel"]?></p>
+        <p>Домофон: <?=$order["domofon"]?></p>
+        <p>Тип оплаты: <?=$order["order_information"]["orderInformation"]["Вид оплаты"]?></p>
+        <p>Сдача: <?=$order["surrender"]?></p>
+        <p>Кол-во персон: <?=$order["count_persons"]?></p>
+        <p>Коментарий: <?=$order["message"]?></p>
         <p>******************************************************************</p>
         <table>
             <thead>

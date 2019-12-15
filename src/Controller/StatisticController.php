@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Dto\StatisticFilterDto;
-use App\Repository\ProductBitrixRepository;
 use App\Repository\ProductRepository;
 use App\Repository\StatisticRepository;
 use Doctrine\DBAL\DBALException;

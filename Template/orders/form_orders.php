@@ -54,9 +54,16 @@
                             <tr>
                                 <td>
                                     <div class="form-group">
-                                        <label for="create_order_order_city">Город</label>
-                                        <input id="create_order_order_city" type="text" name="create_order[city]" class="form-control" placeholder="Адрес заказчика(Город)" value="<?php if (isset($requestValue["city"])): ?><?=$requestValue["city"]?><?php endif ?>" />
+                                        <label for="create_order_order_city">Населенный пункт</label>
+                                        <input id="create_order_order_city" type="text" name="create_order[city]" class="form-control" placeholder="Адрес заказчика(Населенный пункт)" value="<?php if (isset($requestValue["city"])): ?><?=$requestValue["city"]?><?php endif ?>" />
                                         <p class="text-danger"><strong><?php if (isset($errorMessages["city"])): ?><?=$errorMessages["city"]?><?php endif ?></strong></p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="create_order_order_street">Улица</label>
+                                        <input id="create_order_order_street" type="text" name="create_order[street]" class="form-control" placeholder="Адрес заказчика(Улица)" value="<?php if (isset($requestValue["street"])): ?><?=$requestValue["street"]?><?php endif ?>" />
+                                        <p class="text-danger"><strong><?php if (isset($errorMessages["street"])): ?><?=$errorMessages["street"]?><?php endif ?></strong></p>
                                     </div>
                                 </td>
                                 <td>
@@ -66,6 +73,8 @@
                                         <p class="text-danger"><strong><?php if (isset($errorMessages["house"])): ?><?=$errorMessages["house"]?><?php endif ?></strong></p>
                                     </div>
                                 </td>
+                            </tr>
+                            <tr>
                                 <td>
                                     <div class="form-group">
                                         <label for="create_order_order_podezd">Подъезд</label>
@@ -73,8 +82,6 @@
                                         <p class="text-danger"><strong><?php if (isset($errorMessages["podezd"])): ?><?=$errorMessages["podezd"]?><?php endif ?></strong></p>
                                     </div>
                                 </td>
-                            </tr>
-                            <tr>
                                 <td>
                                     <div class="form-group">
                                         <label for="create_order_order_apartment">Квартира</label>
@@ -89,6 +96,8 @@
                                         <p class="text-danger"><strong><?php if (isset($errorMessages["floor"])): ?><?=$errorMessages["floor"]?><?php endif ?></strong></p>
                                     </div>
                                 </td>
+                            </tr>
+                            <tr>
                                 <td>
                                     <div class="form-group">
                                         <label for="create_order_order_domofon">Домофон</label>
@@ -96,6 +105,8 @@
                                         <p class="text-danger"><strong><?php if (isset($errorMessages["domofon"])): ?><?=$errorMessages["domofon"]?><?php endif ?></strong></p>
                                     </div>
                                 </td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </table>
                         <h3>Информация о заказе:</h3>
@@ -247,6 +258,30 @@
                                 <input name="create_order[order_information][orderInformation][Адрес доставки]" type="hidden" value="" />
                             </div>
                         <?php endif; ?>
+                        <div class="form-group">
+                            <label for="create_order_courier_name">Имя курьера:</label>
+                            <select id="create_order_courier_name" name="create_order[courier_name]" class="form-control">
+                                <option value="" selected>Выберите имя</option>
+                                <option value="Сергей" <?php if (isset($requestValue["courier_name"]) && $requestValue["courier_name"] == "Сергей"): ?>selected<?php endif; ?>>Сергей</option>
+                                <option value="Алексей" <?php if (isset($requestValue["courier_name"]) && $requestValue["courier_name"] == "Алексей"): ?>selected<?php endif; ?>>Алексей</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <h5>Количество персон:</h5>
+                            <?php if (!isset($requestValue["count_persons"])):?>
+                                <?php $requestValue["count_persons"] = 1 ?>
+                            <?php endif; ?>
+
+                            <?php foreach (range(1, 6) as $value):?>
+                                <label for="count_person_<?=$value?>" class="radio-inline">
+                                    <input id="count_person_<?=$value?>" type="radio" name="create_order[count_persons]" value="<?=$value?>" <?php if ($requestValue["count_persons"] == $value):?>checked<?php endif; ?> /><?=$value?>
+                                </label>
+                            <?php endforeach;?>
+                        </div>
+                        <div class="form-group">
+                            <label for="surrender">Сдача:</label>
+                            <input id="surrender" type="text" name="create_order[surrender]" value="<?php if (isset($requestValue["surrender"])): ?><?=round((float)$requestValue["surrender"], 2)?><?php endif ?>" />
+                        </div>
                         <div class="form-group">
                             <label for="create_order_message">Коментарий</label>
                             <textarea id="create_order_message" name="create_order[message]" class="form-control" rows="5"><?php if (isset($requestValue["message"])): ?><?=$requestValue["message"]?><?php endif ?></textarea>
