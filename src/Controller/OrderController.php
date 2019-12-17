@@ -22,13 +22,10 @@ class OrderController extends AbstractController
      */
     public function orders(): Response
     {
-        $page = $this->request->query->getInt("page", 1);
-        $limit = $this->request->query->getInt("limit", 20);
-
         $orderFilter = new OrderFilterDto();
         $orderFilter->tel = $this->request->query->get("tel", null);
-        $orderFilter->page = $page;
-        $orderFilter->limit = $limit;
+        $orderFilter->page = $this->request->query->getInt("page", 1);
+        $orderFilter->limit = $this->request->query->getInt("limit", 20);
 
         try {
             $orders = (new OrderRepository())->findOrdersByFilter($orderFilter);
@@ -142,6 +139,33 @@ class OrderController extends AbstractController
 
         return $this->renderTemplate("orders/printVersion", [
             "order" => $order,
+        ]);
+    }
+
+    /**
+     * @return Response
+     * @throws \Exception
+     */
+    public function ajaxOrder(): Response
+    {
+        $orderFilter = new OrderFilterDto();
+        $orderFilter->tel = $this->request->query->get("tel", null);
+        $orderFilter->page = $this->request->query->getInt("page", 1);
+        $orderFilter->limit = $this->request->query->getInt("limit", 20);
+
+        try {
+            $orders = (new OrderRepository())->findOrdersByFilter($orderFilter);
+            $orders = array_map(function ($item) {
+                $item["order_information"] = (new ParserInformation())->stringToArray($item["order_information"]);
+                return $item;
+            }, $orders);
+        } catch (DBALException $e) {
+            $orders = [];
+        }
+
+        return $this->renderTemplate("orders/ajax_load", [
+            "orderFilter" => $orderFilter,
+            "orders" => $orders,
         ]);
     }
 }

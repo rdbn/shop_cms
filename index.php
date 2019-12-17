@@ -50,6 +50,11 @@ $routes->add('print_version', new Route('/order/print-version', [
     'method' => 'printVersion'
 ]));
 
+$routes->add('ajax_order', new Route('/order/ajax', [
+    '_controller' => OrderController::class,
+    'method' => 'ajaxOrder'
+]));
+
 $routes->add('search_product', new Route('/product/search', [
     '_controller' => ProductController::class,
     'method' => 'search'

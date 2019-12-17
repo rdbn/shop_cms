@@ -1,9 +1,3 @@
-<?
-if(isset($_GET['get_orders'])){ // Выдача заказов в ajax
-    echo json_encode($orders);
-    exit;
-}
-if(isset($_GET['get_table'])){?>
 <table class="table">
     <thead>
         <th>id</th>
@@ -24,7 +18,7 @@ if(isset($_GET['get_table'])){?>
             <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["end"]): ?>class="text-muted"<?php endif; ?>
             <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["in_work"]): ?>class="text-danger"<?php endif; ?>
         >
-            <td><?=$order["id"] ?></td>
+            <td class="id"><?=$order["id"] ?></td>
             <td>
                 <?php $price = $order["order_information"]["final"]["Итого"]; ?>
                 <?php if ($order["sales"] == 0): ?>
@@ -70,6 +64,3 @@ if(isset($_GET['get_table'])){?>
     <?php endforeach; ?>
     </tbody>
 </table>
-    <?
-    exit;
-}
