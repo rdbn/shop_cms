@@ -55,6 +55,11 @@ $routes->add('ajax_order', new Route('/order/ajax', [
     'method' => 'ajaxOrder'
 ]));
 
+$routes->add('clone_order', new Route('/order/clone', [
+    '_controller' => OrderController::class,
+    'method' => 'clone'
+]));
+
 $routes->add('search_product', new Route('/product/search', [
     '_controller' => ProductController::class,
     'method' => 'search'

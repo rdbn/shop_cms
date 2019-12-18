@@ -2,7 +2,6 @@
 
 namespace App\Dto;
 
-use App\Validator\Constraints\AddressOrder;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
@@ -13,6 +12,7 @@ class OrderDto
         "end" => 2,
         "in_work" => 3,
         "delete" => 4,
+        "clone" => 5,
     ];
 
     /**
@@ -99,6 +99,8 @@ class OrderDto
      * @var string
      */
     public $domofon;
+
+    public $status = self::STATUS["process"];
 
     /**
      * @var int

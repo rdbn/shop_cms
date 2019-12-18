@@ -168,4 +168,52 @@ class OrderController extends AbstractController
             "orders" => $orders,
         ]);
     }
+
+    /**
+     * @return void
+     * @throws DBALException
+     */
+    public function clone(): void
+    {
+        $order = (new OrderRepository())->findOneById($this->request->query->getInt("id"));
+        if (count($order) == 0) {
+            throw new ResourceNotFoundException();
+        }
+
+        $orderDto = new OrderDto();
+        $orderDto->orderNumber = $order["order_number"];
+        $orderDto->price = $order["price"];
+        $orderDto->countProduct = $order["count_product"];
+        $orderDto->orderDate = $order["order_date"];
+        $orderDto->orderUsername = $order["order_username"];
+        $orderDto->orderInformation = $order["order_information"];
+        $orderDto->tel = $order["tel"];
+        $orderDto->email = $order["email"];
+        $orderDto->address = $order["address"];
+        $orderDto->city = $order["city"];
+        $orderDto->street = $order["street"];
+        $orderDto->house = $order["house"];
+        $orderDto->podezd = $order["podezd"];
+        $orderDto->floor = $order["floor"];
+        $orderDto->apartment = $order["apartment"];
+        $orderDto->domofon = $order["domofon"];
+        $orderDto->sales = $order["sales"];
+        $orderDto->message = $order["message"];
+        $orderDto->countPersons = $order["count_persons"];
+        $orderDto->surrender = $order["surrender"];
+        $orderDto->courierName = $order["courier_name"];
+
+        $connect = (new Connect())->connect();
+
+        $connect->beginTransaction();
+        try {
+            (new CreateOrder())->create($orderDto);
+            $connect->update("`order`", ["status" => OrderDto::STATUS["clone"]], ["id" => $order["id"]]);
+            $connect->commit();
+        } catch (DBALException $e) {
+            $connect->rollBack();
+        }
+
+        $this->redirect();
+    }
 }

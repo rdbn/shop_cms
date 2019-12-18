@@ -33,7 +33,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3>Добавить заказ</h3>
+                    <h3>
+                        Добавить заказ
+                        <a href="/order/clone?id=<?=$requestValue["id"]?>" class="btn btn-primary float-right">Повторить</a>
+                    </h3>
                 </div>
             </div>
             <div class="row">

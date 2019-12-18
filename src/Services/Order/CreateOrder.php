@@ -44,6 +44,7 @@ class CreateOrder
                 "apartment" => $order->apartment,
                 "floor" => $order->floor,
                 "domofon" => $order->domofon,
+                "status" => $order->status,
                 "sales" => $order->sales,
                 "message" => $order->message,
                 "count_persons" => $order->countPersons,

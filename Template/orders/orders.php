@@ -66,7 +66,7 @@
                         <tbody>
                         <?php foreach ($orders as $order): ?>
                             <tr
-                                <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["end"]): ?>class="text-muted"<?php endif; ?>
+                                <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["end"] || $order["status"] == \App\Dto\OrderDto::STATUS["clone"]): ?>class="text-muted"<?php endif; ?>
                                 <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["in_work"]): ?>class="text-danger"<?php endif; ?>
                             >
                                 <td class="id"><?=$order["id"] ?></td>
@@ -107,6 +107,10 @@
                                             <?php if ($order["status"] != \App\Dto\OrderDto::STATUS["in_work"]): ?>
                                                 <a class="btn btn-default" href="/order/change-status?id=<?=$order["id"]?>&status=<?=\App\Dto\OrderDto::STATUS["in_work"]?>">В работе</a>
                                             <?php endif; ?>
+                                        <?php endif; ?>
+                                        <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["end"] && $order["status"] != \App\Dto\OrderDto::STATUS["clone"]): ?>
+                                            <a class="btn btn-primary" href="/order/clone?id=<?=$order["id"]?>">Повторить</a>
+                                            <a class="btn btn-warning" href="/order/edit?id=<?=$order["id"]?>">Просмотр</a>
                                         <?php endif; ?>
                                         <a class="btn btn-danger" href="/order/change-status?id=<?=$order["id"]?>&status=<?=\App\Dto\OrderDto::STATUS["delete"]?>">Удалить</a>
                                     </div>
