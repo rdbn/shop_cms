@@ -42,8 +42,12 @@ class StatisticRepository
             ->setMaxResults($filterDto->limit)
         ;
 
-        if ($filterDto->hour) {
-            $qb->andWhere($qb->expr()->eq("stat.hour", $filterDto->hour));
+        if ($filterDto->hourFrom) {
+            $qb->andWhere($qb->expr()->gte("stat.hour", $filterDto->hourFrom));
+        }
+
+        if ($filterDto->hourTo) {
+            $qb->andWhere($qb->expr()->lte("stat.hour", $filterDto->hourTo));
         }
 
         if ($filterDto->orderId) {
@@ -76,8 +80,7 @@ class StatisticRepository
                 break;
             case StatisticFilterDto::GROUP_BY["order_id"]:
                 $qb
-                    ->addSelect("o.order_number as name")
-                    ->leftJoin("stat", "`order`", "o", "stat.order_id = o.id")
+                    ->addSelect("stat.order_id as name")
                     ->groupBy("stat.order_id")
                 ;
                 break;

@@ -11,6 +11,13 @@ class StatisticFilterDto
         "product" => "product",
     ];
 
+    private const GROUP_BY_TRANSLATE = [
+        "date" => "По дате",
+        "hour" => "По часам",
+        "order_id" => "По заказам(id)",
+        "product" => "По названию товара",
+    ];
+
     /**
      * @var string
      */
@@ -24,7 +31,12 @@ class StatisticFilterDto
     /**
      * @var int
      */
-    public $hour;
+    public $hourFrom;
+
+    /**
+     * @var int
+     */
+    public $hourTo;
 
     /**
      * @var int
@@ -79,6 +91,6 @@ class StatisticFilterDto
      */
     public function getGroupBys(): array
     {
-        return self::GROUP_BY;
+        return self::GROUP_BY_TRANSLATE;
     }
 }

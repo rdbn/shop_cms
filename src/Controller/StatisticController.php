@@ -19,7 +19,8 @@ class StatisticController extends AbstractController
         $statisticFilterDto = new StatisticFilterDto();
         $statisticFilterDto->date = $this->request->query->get("date", $statisticFilterDto->getDateToString());
         $statisticFilterDto->groupBy = $this->request->query->get("group_by", StatisticFilterDto::GROUP_BY["date"]);
-        $statisticFilterDto->hour = $this->request->query->get("hour");
+        $statisticFilterDto->hourFrom = $this->request->query->get("hour_from");
+        $statisticFilterDto->hourTo = $this->request->query->get("hour_to");
         $statisticFilterDto->product = $this->request->query->get("product");
         $statisticFilterDto->orderId = $this->request->query->get("order_id");
         $statisticFilterDto->page = $this->request->query->getInt("page", $statisticFilterDto->page);

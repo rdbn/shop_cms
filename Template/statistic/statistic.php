@@ -40,25 +40,24 @@
                             <input id="date" name="date" required="required" type="text" class="form-control" placeholder="Дата" value="<?=$statisticFilterDto->date?>" />
                         </div>
                         <div class="form-group">
-                            <select id="hour" name="hour" class="form-control">
-                                <option value="" selected>Выберите час</option>
+                            <select id="hour_from" name="hour_from" class="form-control">
+                                <option value="" selected>Выберите час(от)</option>
                                 <?php foreach (range(0, 23) as $hour): ?>
-                                    <option <?php if ($statisticFilterDto->hour != "" && !is_null($statisticFilterDto->hour) && $statisticFilterDto->hour == $hour): ?>selected<?php endif; ?> value="<?=$hour?>"><?=$hour?>:00</option>
+                                    <option <?php if ($statisticFilterDto->hourFrom != "" && !is_null($statisticFilterDto->hourFrom) && $statisticFilterDto->hourFrom == $hour): ?>selected<?php endif; ?> value="<?=$hour?>"><?=$hour?>:00</option>
                                 <?php endforeach; ?>
-                            </select>
-                        </div>
+                            </select>                        </div>
                         <div class="form-group">
-                            <select id="hour" name="hour" class="form-control">
-                                <option value="" selected>Выберите час</option>
+                            <select id="hour_to" name="hour_to" class="form-control">
+                                <option value="" selected>Выберите час(до)</option>
                                 <?php foreach (range(0, 23) as $hour): ?>
-                                    <option <?php if ($statisticFilterDto->hour != "" && !is_null($statisticFilterDto->hour) && $statisticFilterDto->hour == $hour): ?>selected<?php endif; ?> value="<?=$hour?>"><?=$hour?>:00</option>
+                                    <option <?php if ($statisticFilterDto->hourTo != "" && !is_null($statisticFilterDto->hourTo) && $statisticFilterDto->hourTo == $hour): ?>selected<?php endif; ?> value="<?=$hour?>"><?=$hour?>:00</option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="form-group">
                             <select id="group_by" name="group_by" class="form-control">
-                                <?php foreach ($statisticFilterDto->getGroupBys() as $groupByType): ?>
-                                    <option <?php if ($statisticFilterDto->groupBy == $groupByType): ?>selected<?php endif; ?> value="<?=$groupByType?>"><?=$groupByType?></option>
+                                <?php foreach ($statisticFilterDto->getGroupBys() as $index => $groupByType): ?>
+                                    <option <?php if ($statisticFilterDto->groupBy == $index): ?>selected<?php endif; ?> value="<?=$index?>"><?=$groupByType?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -78,16 +77,16 @@
                 <div class="col-lg-12">
                     <table class="table">
                         <thead>
-                            <th>Название</th>
-                            <th>Количество</th>
-                            <th>Сумма</th>
+                            <th>Название(id)</th>
+                            <th>Количество товар</th>
+                            <th>Стоимость товаров</th>
                         </thead>
                         <tbody>
                             <?php foreach ($statistics as $statistic): ?>
                                 <tr>
                                     <td><?=$statistic["name"]?></td>
                                     <td><?=$statistic["count"]?></td>
-                                    <td><?=$statistic["price"]?></td>
+                                    <td><?=number_format($statistic["price"], 2)?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
