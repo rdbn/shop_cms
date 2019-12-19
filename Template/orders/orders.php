@@ -86,6 +86,7 @@
                                 <td><?=$order["tel"] ?></td>
                                 <td>
                                     город: <?=$order["city"] ?><br/>
+                                    улица: <?=$order["street"] ?><br/>
                                     дом: <?=$order["house"] ?><br/>
                                     подъезд: <?=$order["podezd"] ?><br/>
                                     этаж: <?=$order["floor"] ?><br/>

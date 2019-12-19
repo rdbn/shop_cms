@@ -14,10 +14,7 @@
     </thead>
     <tbody>
     <?php foreach ($orders as $order): ?>
-        <tr
-            <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["end"]): ?>class="text-muted"<?php endif; ?>
-            <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["in_work"]): ?>class="text-danger"<?php endif; ?>
-        >
+        <tr <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["end"]): ?>class="text-muted"<?php endif; ?><?php if ($order["status"] == \App\Dto\OrderDto::STATUS["in_work"]): ?>class="text-danger"<?php endif; ?>>
             <td class="id"><?=$order["id"] ?></td>
             <td>
                 <?php $price = $order["order_information"]["final"]["Итого"]; ?>
@@ -35,6 +32,7 @@
             <td><?=$order["tel"] ?></td>
             <td>
                 город: <?=$order["city"] ?><br/>
+                улица: <?=$order["street"] ?><br/>
                 дом: <?=$order["house"] ?><br/>
                 подъезд: <?=$order["podezd"] ?><br/>
                 этаж: <?=$order["floor"] ?><br/>

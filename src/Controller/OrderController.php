@@ -184,7 +184,7 @@ class OrderController extends AbstractController
         $orderDto->orderNumber = $order["order_number"];
         $orderDto->price = $order["price"];
         $orderDto->countProduct = $order["count_product"];
-        $orderDto->orderDate = $order["order_date"];
+        $orderDto->orderDate = (new \DateTimeImmutable())->format("Y-m-d H:i:s");
         $orderDto->orderUsername = $order["order_username"];
         $orderDto->orderInformation = $order["order_information"];
         $orderDto->tel = $order["tel"];

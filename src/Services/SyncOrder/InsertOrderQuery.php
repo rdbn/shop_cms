@@ -14,13 +14,14 @@ class InsertOrderQuery
         tel,
         email,
         city,
+        street,
         house,
         podezd,
         floor,
         apartment,
         domofon,
         message   
-    ) VALUES (%d, %f, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);';
+    ) VALUES (%d, %f, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);';
 
     /**
      * @param array $values
@@ -40,6 +41,7 @@ class InsertOrderQuery
             "'{$values["tel"]}'",
             "'{$values["e_mail"]}'",
             "'{$values["adress"]}'",
+            "'{$values["street"]}'",
             "'{$values["house"]}'",
             "'{$values["porch"]}'",
             "'{$values["floor"]}'",
