@@ -2,7 +2,7 @@ var ajax_loader = {
     vars: {
         last_order_id: null,
         current_last_order_id: null,
-        update_time: 60,
+        update_time: 30,
     },
     init: function () {
         if(typeof(current_page) != 'undefined' && current_page == 1) {
@@ -25,7 +25,6 @@ var ajax_loader = {
             }
         }
     }
-
 };
 
 $(document).ready(function () { ajax_loader.init(); });
