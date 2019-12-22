@@ -7,7 +7,7 @@
 
         <title>Версия для печати</title>
     </head>
-    <body style="font-size: 18px;">
+    <body style="font-size: 22px; font-weight: bold;">
         <p>******************************************************************</p>
         <p>My-fishka.ru</p>
         <p>******************************************************************</p>
@@ -20,7 +20,7 @@
         </p>
         <p>Домофон: <?=$order["domofon"]?></p>
         <p>Тип оплаты: <?=$order["order_information"]["orderInformation"]["Вид оплаты"]?></p>
-        <p>Сдача: <?=$order["surrender"]?></p>
+        <p>Сдача: <?=round($order["surrender"], 2)?></p>
         <p>Кол-во персон: <?=$order["count_persons"]?></p>
         <p>Коментарий: <?=$order["message"]?></p>
         <p>******************************************************************</p>
@@ -42,6 +42,11 @@
         </table>
         <p>******************************************************************</p>
         <p>Скидка: <?=$order["sales"]?></p>
-        <p>Итого: <?=$order["order_information"]["final"]["Итого"]?></p>
+        <?php $price = $order["order_information"]["final"]["Итого"]; ?>
+        <?php if ($order["sales"] > 0): ?>
+            <p>Итого: <?=($price-($order["sales"] * $price / 100))?></p>
+        <?php else: ?>
+            <p>Итого: <?=$price?></p>
+        <?php endif; ?>
     </body>
 </html>

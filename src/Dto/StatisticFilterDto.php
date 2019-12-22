@@ -49,6 +49,11 @@ class StatisticFilterDto
     public $product;
 
     /**
+     * @var bool
+     */
+    public $isEndOrder = false;
+
+    /**
      * @var int
      */
     public $page = 1;

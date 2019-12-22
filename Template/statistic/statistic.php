@@ -33,9 +33,9 @@
             </div>
         </nav>
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <form method="get" class="form-inline">
+            <form method="get" class="form-inline">
+                <div class="row">
+                    <div class="col-lg-12">
                         <div class="form-group">
                             <input id="date" name="date" required="required" type="text" class="form-control" placeholder="Дата" value="<?=$statisticFilterDto->date?>" />
                         </div>
@@ -45,7 +45,8 @@
                                 <?php foreach (range(0, 23) as $hour): ?>
                                     <option <?php if ($statisticFilterDto->hourFrom != "" && !is_null($statisticFilterDto->hourFrom) && $statisticFilterDto->hourFrom == $hour): ?>selected<?php endif; ?> value="<?=$hour?>"><?=$hour?>:00</option>
                                 <?php endforeach; ?>
-                            </select>                        </div>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <select id="hour_to" name="hour_to" class="form-control">
                                 <option value="" selected>Выберите час(до)</option>
@@ -62,17 +63,26 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <input id="order_id" type="text" class="form-control" placeholder="Номер заказа" />
+                            <input id="order_id" type="text" class="form-control" placeholder="Номер заказа" value="<?=$statisticFilterDto->orderId?>" />
                         </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px">
+                    <div class="col-lg-12">
                         <div class="form-group">
-                            <input id="product" type="text" class="form-control" placeholder="Название продукта" />
+                            <input id="product" type="text" class="form-control" placeholder="Название продукта" value="<?=$statisticFilterDto->product?>" />
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input id="is_end_order" name="is_end_order" type="checkbox" <?php if ($statisticFilterDto->isEndOrder):?>checked<?php endif; ?> /> Только завершенные заказы
+                            </label>
                         </div>
                         <input type="hidden" name="page" value="<?=$statisticFilterDto->page?>" />
                         <input type="hidden" name="limit" value="<?=$statisticFilterDto->limit?>" />
                         <button class="btn btn-primary">Фильтровать</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </form>
             <div class="row">
                 <div class="col-lg-12">
                     <table class="table">

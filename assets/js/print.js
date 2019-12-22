@@ -1,8 +1,6 @@
 var ajax_print = {
     init: function () {
-
         ajax_print.functions.setListeners();  // Проставим листенеры
-
     },
     functions: {
         setListeners: function () { // Проставим листенеры
@@ -16,7 +14,7 @@ var ajax_print = {
             });
         },
         tryPrint: function (id) { // Попробуем распечатать
-            $.get("http://cp.my-fishka.ru/order/print-version?id="+id, function (data) {
+            $.get("/order/print-version?id="+id, function (data) {
                 $('.ajax_print[data-id="'+id+'"]').removeClass('disabled'); // Включим кнопку
                 $('.print_tmp_content').html(data); // Поместим html
                 printJS('print_tmp_content', 'html'); // Распечатаем

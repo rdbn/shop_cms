@@ -22,6 +22,7 @@ class StatisticController extends AbstractController
         $statisticFilterDto->hourFrom = $this->request->query->get("hour_from");
         $statisticFilterDto->hourTo = $this->request->query->get("hour_to");
         $statisticFilterDto->product = $this->request->query->get("product");
+        $statisticFilterDto->isEndOrder = $this->request->query->get("is_end_order");
         $statisticFilterDto->orderId = $this->request->query->get("order_id");
         $statisticFilterDto->page = $this->request->query->getInt("page", $statisticFilterDto->page);
         $statisticFilterDto->limit = $this->request->query->getInt("limit", $statisticFilterDto->limit);

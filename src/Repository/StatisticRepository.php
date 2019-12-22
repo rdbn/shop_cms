@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Connect\Connect;
+use App\Dto\OrderDto;
 use App\Dto\StatisticFilterDto;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
@@ -56,6 +57,12 @@ class StatisticRepository
 
         if ($filterDto->product) {
             $qb->andWhere($qb->expr()->eq("stat.product_id", $filterDto->product));
+        }
+
+        if ($filterDto->isEndOrder) {
+            $qb
+                ->leftJoin("stat", "`order`", "o", "stat.order_id = o.id")
+                ->andWhere($qb->expr()->eq("o.status", OrderDto::STATUS["end"]));
         }
 
         switch ($filterDto->groupBy) {
