@@ -27,7 +27,7 @@
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input required="required" id="password" type="text" name="password" class="form-control" placeholder="Password" value="<?php if (isset($requestValue["password"])): ?><?=$requestValue["password"]?><?php endif ?>" />
+                            <input required="required" id="password" type="password" name="password" class="form-control" placeholder="Password" value="<?php if (isset($requestValue["password"])): ?><?=$requestValue["password"]?><?php endif ?>" />
                             <p class="text-danger"><strong><?php if (isset($errorMessages["password"])): ?><?=$errorMessages["password"]?><?php endif ?></strong></p>
                         </div>
                         <button class="btn btn-primary">Войти</button>

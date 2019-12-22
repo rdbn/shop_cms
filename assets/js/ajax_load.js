@@ -1,26 +1,28 @@
-var ajax_loader = { // Автоматическая подгрузка новых заказов
+var ajax_loader = {
     vars: {
-        last_order_id: null, // id последнего заказа
-        update_time: 60, // Кол-во секунд периода авто загрузки
-        audio: new Audio('assets/notif.mp3')
+        last_order_id: null,
+        current_last_order_id: null,
+        update_time: 60,
     },
-    init: function () { // Инициализация подгрузки
-        if(typeof(current_page) != 'undefined' && current_page == 1){ // Если это первая страница
-            ajax_loader.functions.getOrders(); // Запустим скрипт
+    init: function () {
+        if(typeof(current_page) != 'undefined' && current_page == 1) {
+            ajax_loader.functions.getOrders();
         }
     },
     functions: {
-        getOrders: function () { // Получим заказы
+        getOrders: function () {
             $.get("/order/ajax" + window.location.search, function (data) {
-                var currentLastId = parseInt($(".table_block").find(".id").html());
-                ajax_loader.vars.last_order_id = parseInt($(data).find(".id").html()); // Сохраним ID самого последнего заказа
+                ajax_loader.vars.current_last_order_id = parseInt($(".table_block").find(".id").html());
+                ajax_loader.vars.last_order_id = parseInt($(data).find(".id").html());
 
-                if (currentLastId < ajax_loader.vars.last_order_id) { // Если есть новый заказ
+                if (ajax_loader.vars.current_last_order_id < ajax_loader.vars.last_order_id) {
                     $('.table_block').html(data);
-                    ajax_loader.vars.audio.play();
                 }
             });
-            setTimeout(ajax_loader.functions.getOrders, parseInt(ajax_loader.vars.update_time) * 1000); // Поставим таймер для следующей проверки
+            setTimeout(ajax_loader.functions.getOrders, parseInt(ajax_loader.vars.update_time) * 1000);
+            if (ajax_loader.vars.current_last_order_id < ajax_loader.vars.last_order_id) {
+                new Audio('assets/notif.mp3').play();
+            }
         }
     }
 
