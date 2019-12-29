@@ -300,6 +300,7 @@
         <script src="/assets/js/bootstrap3-typeahead.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script src="/assets/js/jquery.maskedinput.min.js" crossorigin="anonymous"></script>
         <script type="application/javascript">
             function totalSum() {
                 var totalSum = 0;
@@ -419,6 +420,8 @@
                         }
                     });
                 });
+
+                $("#create_order_order_tel").mask("+7(999) 999-99-99");
             });
         </script>
     </body>

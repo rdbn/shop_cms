@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="/">Список заказов</a></li>
+                            <li id="fast-click" class="active"><a href="/">Список заказов</a></li>
                             <li><a href="/order/create">Добавить заказ</a></li>
                             <li><a href="/statistics">Статистика</a></li>
                         </ul>
@@ -41,7 +41,7 @@
                 <div class="col-lg-12">
                     <form method="get" class="form-inline">
                         <div class="form-group">
-                            <input type="number" class="form-control" name="tel" placeholder="Номер телефона" value="<?=$orderFilter->tel?>" />
+                            <input id="filter-tel" type="text" class="form-control" name="tel" placeholder="Номер телефона" value="<?=$orderFilter->tel?>" />
                         </div>
                         <button class="btn btn-primary">Найти</button>
                     </form>
@@ -143,13 +143,21 @@
             </nav>
         </div>
 
+        <audio id="signal_new_order" class="hidden" src="assets/Sound_17211.mp3" type="audio/mpeg" muted preload="none"></audio>
+
         <script type="application/javascript">var current_page = '<?=$orderFilter->page;?>';</script>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script src="/assets/js/jquery.maskedinput.min.js" crossorigin="anonymous"></script>
         <script src="assets/js/ajax_load.js" crossorigin="anonymous"></script>
         <script src="assets/js/print.min.js" crossorigin="anonymous"></script>
         <script src="assets/js/print.js" crossorigin="anonymous"></script>
+        <script type="application/javascript">
+            $(document).ready(function () {
+                $("#filter-tel").mask("+7(999) 999-99-99");
+            })
+        </script>
     </body>
 </html>

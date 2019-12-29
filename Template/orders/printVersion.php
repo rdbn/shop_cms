@@ -15,8 +15,9 @@
         <p>Тел: <?=$order["tel"]?></p>
         <p>
             Адрес: <br/>
-            г. <?=$order["city"]?>, д. <?=$order["house"]?>, кв. <?=$order["apartment"]?>, п. <?=$order["podezd"]?>,
-            эт. <?=$order["floor"]?>
+            г. <?=$order["city"]?>, ул. <?=$order["street"]?>,<br/>
+            д. <?=$order["house"]?>, кв. <?=$order["apartment"]?>,<br/>
+            п. <?=$order["podezd"]?>, эт. <?=$order["floor"]?>
         </p>
         <p>Домофон: <?=$order["domofon"]?></p>
         <p>Тип оплаты: <?=$order["order_information"]["orderInformation"]["Вид оплаты"]?></p>
