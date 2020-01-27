@@ -34,7 +34,8 @@ class ProductBitrixRepository
         SELECT p.NAME as name, MAX(biep.VALUE_NUM) as price FROM b_iblock_element p
             LEFT JOIN b_iblock_element_property biep on p.ID = biep.IBLOCK_ELEMENT_ID
         WHERE
-            p.NAME LIKE :name_product
+            p.NAME LIKE :name_product         
+            AND biep.IBLOCK_PROPERTY_ID=6
         GROUP BY p.NAME
         HAVING price IS NOT NULL
         LIMIT 20;

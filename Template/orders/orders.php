@@ -156,7 +156,7 @@
         <script src="assets/js/print.js" crossorigin="anonymous"></script>
         <script type="application/javascript">
             $(document).ready(function () {
-                $("#filter-tel").mask("+7(999) 999-99-99");
+                $("#filter-tel").mask("+7 (999) 999-99-99");
             })
         </script>
     </body>

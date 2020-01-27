@@ -43,7 +43,7 @@ class OrderRepository
         ;
 
         if ($filter->tel) {
-            $qb->andWhere($qb->expr()->eq("o.tel", (int)$filter->tel));
+            $qb->andWhere($qb->expr()->eq("o.tel", $this->dbal->quote($filter->tel)));
         }
 
         $stmt = $this->dbal->prepare($qb->getSQL());
