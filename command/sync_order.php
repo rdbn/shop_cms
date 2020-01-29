@@ -9,8 +9,7 @@ $log = (new Logger('sync_order'))->getLogger();
 
 $log->info("Start sync order");
 try {
-    $syncOrder = new SyncOrder();
-    $syncOrder->sync();
+    (new SyncOrder())->sync();
 } catch (\Exception $e) {
     $log->error($e->getMessage());
     exit(1);

@@ -42,16 +42,24 @@
             <div class="row">
                 <div class="col-lg-12">
                     <form method="post">
-                        <div class="form-group">
-                            <label for="create_order_order_username">Имя заказчика</label>
-                            <input required="required" id="create_order_order_username" type="text" name="create_order[order_username]" class="form-control" placeholder="Имя заказчика" value="<?php if (isset($requestValue["order_username"])): ?><?=$requestValue["order_username"]?><?php endif ?>" />
-                            <p class="text-danger"><strong><?php if (isset($errorMessages["orderUsername"])): ?><?=$errorMessages["orderUsername"]?><?php endif ?></strong></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="create_order_order_tel">Телефон</label>
-                            <input required="required" id="create_order_order_tel" type="text" name="create_order[tel]" class="form-control" placeholder="Телефон заказчика" value="<?php if (isset($requestValue["tel"])): ?><?=$requestValue["tel"]?><?php endif ?>" />
-                            <p class="text-danger"><strong><?php if (isset($errorMessages["tel"])): ?><?=$errorMessages["tel"]?><?php endif ?></strong></p>
-                        </div>
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="create_order_order_username">Имя заказчика</label>
+                                        <input required="required" id="create_order_order_username" type="text" name="create_order[order_username]" class="form-control" placeholder="Имя заказчика" value="<?php if (isset($requestValue["order_username"])): ?><?=$requestValue["order_username"]?><?php endif ?>" />
+                                        <p class="text-danger"><strong><?php if (isset($errorMessages["orderUsername"])): ?><?=$errorMessages["orderUsername"]?><?php endif ?></strong></p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="create_order_order_tel">Телефон</label>
+                                        <input required="required" id="create_order_order_tel" type="text" name="create_order[tel]" class="form-control" placeholder="Телефон заказчика" value="<?php if (isset($requestValue["tel"])): ?><?=$requestValue["tel"]?><?php endif ?>" />
+                                        <p class="text-danger"><strong><?php if (isset($errorMessages["tel"])): ?><?=$errorMessages["tel"]?><?php endif ?></strong></p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                         <h3>Адрес доставки:</h3>
                         <table class="table">
                             <tr>
@@ -175,9 +183,9 @@
                             <input id="create_order_sales" type="hidden" name="create_order[sale]" value="<?php if (isset($requestValue["sales"])): ?><?=$requestValue["sales"]?><?php endif; ?>" />
                             <h5>Скидка:</h5>
                             <div id="btn-group" class="btn-group">
-                                <button type="button" class="sales btn btn-default <?php if (isset($requestValue["sales"]) && $requestValue["sales"] == 10): ?>active<?php endif; ?>" data-sales="10">10%</button>
-                                <button type="button" class="sales btn btn-default <?php if (isset($requestValue["sales"]) && $requestValue["sales"] == 20): ?>active<?php endif; ?>" data-sales="20">20%</button>
-                                <button type="button" class="sales btn btn-default <?php if (isset($requestValue["sales"]) && $requestValue["sales"] == 30): ?>active<?php endif; ?>" data-sales="30">30%</button>
+                                <?php foreach (range(1, 10) as $item): ?>
+                                    <button type="button" class="sales btn btn-default <?php if (isset($requestValue["sales"]) && $requestValue["sales"] == $item * 5): ?>active<?php endif; ?>" data-sales="10"><?=$item * 5?>%</button>
+                                <?php endforeach; ?>
                                 <button type="button" class="btn btn-default disabled-sale">Отменить скидку</button>
                             </div>
                         </div>
@@ -224,51 +232,65 @@
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
-                        <?php if (isset($requestValue["order_information"]["orderInformation"])): ?>
-                            <?php $orderInformation = $requestValue["order_information"]["orderInformation"]; ?>
-                            <h5>Дополнительная информация:</h5>
-                            <div class="form-group">
-                                <label for="create_order_payment_type">Оплата</label>
-                                <select id="create_order_payment_type" name="create_order[order_information][orderInformation][Вид оплаты]" class="form-control">
-                                    <option <?php if (trim($orderInformation["Вид оплаты"]) == "Оплата наличными"): ?>selected<?php endif; ?> value="Оплата наличными">Оплата наличными</option>
-                                    <option <?php if (trim($orderInformation["Вид оплаты"]) == "Оплата картой"): ?>selected<?php endif; ?> value="Оплата картой">Оплата картой</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="create_order_delivery">Доставка</label>
-                                <select id="create_order_delivery" name="create_order[order_information][orderInformation][Доставка]" class="form-control">
-                                    <option <?php if (trim($orderInformation["Доставка"]) == "самовывоз"): ?>selected<?php endif; ?> value="самовывоз">самовывоз</option>
-                                    <option <?php if (trim($orderInformation["Доставка"]) == "курьером"): ?>selected<?php endif; ?> value="курьером">курьером</option>
-                                </select>
-                            </div>
-                            <input name="create_order[order_information][orderInformation][Адрес доставки]" type="hidden" value="<?=$orderInformation["Адрес доставки"]?>" />
-                        <?php else: ?>
-                            <input name="create_order[order_information][orderInformation][Адрес доставки]" type="hidden" value="" />
-                            <h5>Дополнительная информация:</h5>
-                            <div class="form-group">
-                                <label for="create_order_payment_type">Оплата</label>
-                                <select id="create_order_payment_type" name="create_order[order_information][orderInformation][Вид оплаты]" class="form-control">
-                                    <option value="Оплата наличными">Оплата наличными</option>
-                                    <option value="Оплата картой">Оплата картой</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="create_order_delivery">Доставка</label>
-                                <select id="create_order_delivery" name="create_order[order_information][orderInformation][Доставка]" class="form-control">
-                                    <option value="самовывоз">самовывоз</option>
-                                    <option value="курьером">курьером</option>
-                                </select>
-                                <input name="create_order[order_information][orderInformation][Адрес доставки]" type="hidden" value="" />
-                            </div>
-                        <?php endif; ?>
-                        <div class="form-group">
-                            <label for="create_order_courier_name">Имя курьера:</label>
-                            <select id="create_order_courier_name" name="create_order[courier_name]" class="form-control">
-                                <option value="" selected>Выберите имя</option>
-                                <option value="Сергей" <?php if (isset($requestValue["courier_name"]) && $requestValue["courier_name"] == "Сергей"): ?>selected<?php endif; ?>>Сергей</option>
-                                <option value="Алексей" <?php if (isset($requestValue["courier_name"]) && $requestValue["courier_name"] == "Алексей"): ?>selected<?php endif; ?>>Алексей</option>
-                            </select>
-                        </div>
+                        <table class="table">
+                            <tr>
+                                <?php if (isset($requestValue["order_information"]["orderInformation"])): ?>
+                                    <?php $orderInformation = $requestValue["order_information"]["orderInformation"]; ?>
+                                    <h5>Дополнительная информация:</h5>
+                                    <td>
+                                        <div class="form-group">
+                                            <label for="create_order_payment_type">Оплата</label>
+                                            <select id="create_order_payment_type" name="create_order[order_information][orderInformation][Вид оплаты]" class="form-control">
+                                                <option <?php if (trim($orderInformation["Вид оплаты"]) == "Оплата наличными"): ?>selected<?php endif; ?> value="Оплата наличными">Оплата наличными</option>
+                                                <option <?php if (trim($orderInformation["Вид оплаты"]) == "Оплата картой"): ?>selected<?php endif; ?> value="Оплата картой">Оплата картой</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <label for="create_order_delivery">Доставка</label>
+                                            <select id="create_order_delivery" name="create_order[order_information][orderInformation][Доставка]" class="form-control">
+                                                <option <?php if (trim($orderInformation["Доставка"]) == "самовывоз"): ?>selected<?php endif; ?> value="самовывоз">самовывоз</option>
+                                                <option <?php if (trim($orderInformation["Доставка"]) == "курьером"): ?>selected<?php endif; ?> value="курьером">курьером</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <input name="create_order[order_information][orderInformation][Адрес доставки]" type="hidden" value="<?=$orderInformation["Адрес доставки"]?>" />
+                                <?php else: ?>
+                                    <input name="create_order[order_information][orderInformation][Адрес доставки]" type="hidden" value="" />
+                                    <h5>Дополнительная информация:</h5>
+                                    <td>
+                                    <div class="form-group">
+                                        <label for="create_order_payment_type">Оплата</label>
+                                        <select id="create_order_payment_type" name="create_order[order_information][orderInformation][Вид оплаты]" class="form-control">
+                                            <option value="Оплата наличными">Оплата наличными</option>
+                                            <option value="Оплата картой">Оплата картой</option>
+                                        </select>
+                                    </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <label for="create_order_delivery">Доставка</label>
+                                            <select id="create_order_delivery" name="create_order[order_information][orderInformation][Доставка]" class="form-control">
+                                                <option value="самовывоз">самовывоз</option>
+                                                <option value="курьером">курьером</option>
+                                            </select>
+                                            <input name="create_order[order_information][orderInformation][Адрес доставки]" type="hidden" value="" />
+                                        </div>
+                                    </td>
+                                <?php endif; ?>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="create_order_courier_name">Имя курьера:</label>
+                                        <select id="create_order_courier_name" name="create_order[courier_name]" class="form-control">
+                                            <option value="" selected>Выберите имя</option>
+                                            <option value="Сергей" <?php if (isset($requestValue["courier_name"]) && $requestValue["courier_name"] == "Сергей"): ?>selected<?php endif; ?>>Сергей</option>
+                                            <option value="Алексей" <?php if (isset($requestValue["courier_name"]) && $requestValue["courier_name"] == "Алексей"): ?>selected<?php endif; ?>>Алексей</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                         <div class="form-group">
                             <h5>Количество персон:</h5>
                             <?php if (!isset($requestValue["count_persons"])):?>
@@ -421,7 +443,7 @@
                     });
                 });
 
-                $("#create_order_order_tel").mask("+7(999) 999-99-99");
+                $("#create_order_order_tel").mask("+7 (999) 999-99-99");
             });
         </script>
     </body>

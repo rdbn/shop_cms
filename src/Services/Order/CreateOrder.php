@@ -4,8 +4,12 @@ namespace App\Services\Order;
 
 use App\Connect\Connect;
 use App\Dto\OrderDto;
+use App\Repository\ProductRepository;
+use App\Services\SyncOrder\InsertProductQuery;
+use App\Services\SyncOrder\InsertStatisticOrderQuery;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
+use Symfony\Component\HttpFoundation\Request;
 
 class CreateOrder
 {
@@ -15,12 +19,24 @@ class CreateOrder
     private $dbal;
 
     /**
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * @var int
+     */
+    private $orderId;
+
+    /**
      * CreateOrder constructor.
+     * @param Request $request
      * @throws DBALException
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->dbal = (new Connect())->connect();
+        $this->request = $request;
     }
 
     /**
@@ -51,8 +67,24 @@ class CreateOrder
                 "surrender" => $order->surrender,
                 "courier_name" => $order->courierName,
             ]);
+            $this->orderId = $this->dbal->lastInsertId();
         } catch (DBALException $e) {
             throw new DBALException($e->getMessage());
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function addStatistic(): void
+    {
+        foreach ($this->request->request->get("create_order")["order_information"]["products"] as $product) {
+            $productId = (new ProductRepository())->findProductByName($product["name"]);
+            if (false == $productId) {
+                $this->dbal->executeQuery(InsertProductQuery::query($product["name"], $product["price"]));
+                $productId = $this->dbal->lastInsertId();
+            }
+            $this->dbal->executeQuery(InsertStatisticOrderQuery::query($product, $this->orderId, $productId));
         }
     }
 }

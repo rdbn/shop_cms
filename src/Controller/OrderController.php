@@ -6,10 +6,13 @@ use App\Connect\Connect;
 use App\Dto\OrderDto;
 use App\Dto\OrderFilterDto;
 use App\Repository\OrderRepository;
+use App\Repository\ProductRepository;
 use App\Services\Order\CreateOrder;
 use App\Services\Order\EditOrder;
 use App\Services\Order\OrderValidator;
 use App\Services\Order\ParserInformation;
+use App\Services\SyncOrder\InsertProductQuery;
+use App\Services\SyncOrder\InsertStatisticOrderQuery;
 use Doctrine\DBAL\DBALException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -53,7 +56,10 @@ class OrderController extends AbstractController
         $orderValidator->handleRequest($this->request);
 
         if ($orderValidator->isValid()) {
-            (new CreateOrder())->create($orderValidator->getOrder());
+            $createOrder = new CreateOrder($this->request);
+            $createOrder->create($orderValidator->getOrder());
+            $createOrder->addStatistic();
+
             $this->redirect();
         }
 
@@ -207,7 +213,7 @@ class OrderController extends AbstractController
 
         $connect->beginTransaction();
         try {
-            (new CreateOrder())->create($orderDto);
+            (new CreateOrder($this->request))->create($orderDto);
             $connect->update("`order`", ["status" => OrderDto::STATUS["clone"]], ["id" => $order["id"]]);
             $connect->commit();
         } catch (DBALException $e) {
