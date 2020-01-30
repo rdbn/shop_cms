@@ -184,7 +184,7 @@
                             <h5>Скидка:</h5>
                             <div id="btn-group" class="btn-group">
                                 <?php foreach (range(1, 10) as $item): ?>
-                                    <button type="button" class="sales btn btn-default <?php if (isset($requestValue["sales"]) && $requestValue["sales"] == $item * 5): ?>active<?php endif; ?>" data-sales="10"><?=$item * 5?>%</button>
+                                    <button type="button" class="sales btn btn-default <?php if (isset($requestValue["sales"]) && $requestValue["sales"] == $item * 5): ?>active<?php endif; ?>" data-sales="<?=$item * 5?>"><?=$item * 5?>%</button>
                                 <?php endforeach; ?>
                                 <button type="button" class="btn btn-default disabled-sale">Отменить скидку</button>
                             </div>
@@ -297,14 +297,14 @@
                                 <?php $requestValue["count_persons"] = 1 ?>
                             <?php endif; ?>
 
-                            <?php foreach (range(1, 6) as $value):?>
+                            <?php foreach (range(1, 10) as $value):?>
                                 <label for="count_person_<?=$value?>" class="radio-inline">
                                     <input id="count_person_<?=$value?>" type="radio" name="create_order[count_persons]" value="<?=$value?>" <?php if ($requestValue["count_persons"] == $value):?>checked<?php endif; ?> /><?=$value?>
                                 </label>
                             <?php endforeach;?>
                         </div>
                         <div class="form-group">
-                            <label for="surrender">Сдача:</label>
+                            <label for="surrender">Сдача c:</label>
                             <input id="surrender" type="text" name="create_order[surrender]" value="<?php if (isset($requestValue["surrender"])): ?><?=round((float)$requestValue["surrender"], 2)?><?php endif ?>" />
                         </div>
                         <div class="form-group">

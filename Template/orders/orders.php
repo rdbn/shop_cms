@@ -143,7 +143,7 @@
             </nav>
         </div>
 
-        <audio id="signal_new_order" class="hidden" src="assets/Sound_17211.mp3" type="audio/mpeg" muted preload="none"></audio>
+        <audio id="signal_new_order" class="hidden" src="assets/signal.mpeg" type="audio/mpeg" muted preload="none"></audio>
 
         <script type="application/javascript">var current_page = '<?=$orderFilter->page;?>';</script>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

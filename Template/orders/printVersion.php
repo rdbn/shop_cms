@@ -7,21 +7,20 @@
 
         <title>Версия для печати</title>
     </head>
-    <body style="font-size: 22px; font-weight: bold;">
+    <body style="font-size: 30px; font-weight: bold; font-family: Verdana,serif; width: 100%; height: 100%;">
         <p>******************************************************************</p>
-        <p>My-fishka.ru</p>
+        <p style="font-size: 35px; text-align: center;">My-fishka.ru</p>
         <p>******************************************************************</p>
         <p>Клиент: <?=$order["order_username"]?></p>
         <p>Тел: <?=$order["tel"]?></p>
         <p>
             Адрес: <br/>
             г. <?=$order["city"]?>, ул. <?=$order["street"]?>,<br/>
-            д. <?=$order["house"]?>, кв. <?=$order["apartment"]?>,<br/>
-            п. <?=$order["podezd"]?>, эт. <?=$order["floor"]?>
+            д. <?=$order["house"]?>, кв. <?=$order["apartment"]?>, п. <?=$order["podezd"]?>, эт. <?=$order["floor"]?>
         </p>
         <p>Домофон: <?=$order["domofon"]?></p>
         <p>Тип оплаты: <?=$order["order_information"]["orderInformation"]["Вид оплаты"]?></p>
-        <p>Сдача: <?=round($order["surrender"], 2)?></p>
+        <p>Сдача с: <?=round($order["surrender"], 2)?></p>
         <p>Кол-во персон: <?=$order["count_persons"]?></p>
         <p>Коментарий: <?=$order["message"]?></p>
         <p>******************************************************************</p>
@@ -42,12 +41,14 @@
             </tbody>
         </table>
         <p>******************************************************************</p>
-        <p>Скидка: <?=$order["sales"]?></p>
+        <p>Скидка: <?=$order["sales"]?>%</p>
+        <p>Итого:
         <?php $price = $order["order_information"]["final"]["Итого"]; ?>
-        <?php if ($order["sales"] > 0): ?>
-            <p>Итого: <?=($price-($order["sales"] * $price / 100))?></p>
+        <?php if ($order["sales"] == 0): ?>
+            <?=$price?>руб.
         <?php else: ?>
-            <p>Итого: <?=$price?></p>
+            <s><?=$price?>руб.</s> <?=($price-($order["sales"] * $price / 100))?>руб.
         <?php endif; ?>
+        </p>
     </body>
 </html>
