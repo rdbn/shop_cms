@@ -37,6 +37,7 @@ class StatisticRepository
             ->addSelect("SUM(stat.count_order_product) as count")
             ->addSelect("SUM(stat.product_price) as price")
             ->from("statistic_order", "stat")
+            ->leftJoin("stat", "`product`", "p", "stat.product_id = p.id")
             ->andWhere($qb->expr()->gte("stat.date", $this->dbal->quote($filterDto->getDate()["from"]->format("Y-m-d"))))
             ->andWhere($qb->expr()->lte("stat.date", $this->dbal->quote($filterDto->getDate()["to"]->format("Y-m-d"))))
             ->setFirstResult(($filterDto->page - 1) * $filterDto->limit)
@@ -56,7 +57,7 @@ class StatisticRepository
         }
 
         if ($filterDto->product) {
-            $qb->andWhere($qb->expr()->eq("stat.product_id", $filterDto->product));
+            $qb->andWhere($qb->expr()->eq("p.name", $this->dbal->quote($filterDto->product)));
         }
 
         if ($filterDto->isEndOrder) {
@@ -81,7 +82,6 @@ class StatisticRepository
             case StatisticFilterDto::GROUP_BY["product"]:
                 $qb
                     ->addSelect("p.name as name")
-                    ->leftJoin("stat", "`product`", "p", "stat.product_id = p.id")
                     ->groupBy("stat.product_id")
                 ;
                 break;
@@ -92,8 +92,7 @@ class StatisticRepository
                 ;
                 break;
         }
-
-        $stmt = $this->dbal->prepare($qb->getSQL());
+                $stmt = $this->dbal->prepare($qb->getSQL());
         $stmt->execute();
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);

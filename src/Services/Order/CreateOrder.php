@@ -74,11 +74,12 @@ class CreateOrder
     }
 
     /**
+     * @param array $products
      * @throws \Exception
      */
-    public function addStatistic(): void
+    public function addStatistic(array $products): void
     {
-        foreach ($this->request->request->get("create_order")["order_information"]["products"] as $product) {
+        foreach ($products as $product) {
             $productId = (new ProductRepository())->findProductByName($product["name"]);
             if (false == $productId) {
                 $this->dbal->executeQuery(InsertProductQuery::query($product["name"], $product["price"]));

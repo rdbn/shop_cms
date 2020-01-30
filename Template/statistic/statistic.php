@@ -63,14 +63,14 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <input id="order_id" type="text" class="form-control" placeholder="Номер заказа" value="<?=$statisticFilterDto->orderId?>" />
+                            <input id="order_id" name="order_id" type="text" class="form-control" placeholder="Номер заказа" value="<?=$statisticFilterDto->orderId?>" />
                         </div>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 10px">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <input id="product" type="text" class="form-control" placeholder="Название продукта" value="<?=$statisticFilterDto->product?>" />
+                            <input id="product" name="product" type="text" class="form-control" placeholder="Название продукта" value="<?=$statisticFilterDto->product?>" />
                         </div>
                         <div class="checkbox">
                             <label>

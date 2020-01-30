@@ -10,6 +10,7 @@ use App\Repository\ProductRepository;
 use App\Services\Order\CreateOrder;
 use App\Services\Order\EditOrder;
 use App\Services\Order\OrderValidator;
+use App\Services\Order\Parser\StringToArray;
 use App\Services\Order\ParserInformation;
 use App\Services\SyncOrder\InsertProductQuery;
 use App\Services\SyncOrder\InsertStatisticOrderQuery;
@@ -58,7 +59,7 @@ class OrderController extends AbstractController
         if ($orderValidator->isValid()) {
             $createOrder = new CreateOrder($this->request);
             $createOrder->create($orderValidator->getOrder());
-            $createOrder->addStatistic();
+            $createOrder->addStatistic($this->request->request->get("create_order")["order_information"]["products"]);
 
             $this->redirect();
         }
@@ -177,7 +178,7 @@ class OrderController extends AbstractController
 
     /**
      * @return void
-     * @throws DBALException
+     * @throws \Exception
      */
     public function clone(): void
     {
@@ -213,7 +214,9 @@ class OrderController extends AbstractController
 
         $connect->beginTransaction();
         try {
-            (new CreateOrder($this->request))->create($orderDto);
+            $createOrder = new CreateOrder($this->request);
+            $createOrder->create($orderDto);
+            $createOrder->addStatistic((new ParserInformation())->stringToArray($orderDto->orderInformation)["products"]);
             $connect->update("`order`", ["status" => OrderDto::STATUS["clone"]], ["id" => $order["id"]]);
             $connect->commit();
         } catch (DBALException $e) {

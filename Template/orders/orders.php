@@ -108,8 +108,7 @@
                                             <?php if ($order["status"] != \App\Dto\OrderDto::STATUS["in_work"]): ?>
                                                 <a class="btn btn-default" href="/order/change-status?id=<?=$order["id"]?>&status=<?=\App\Dto\OrderDto::STATUS["in_work"]?>">В работе</a>
                                             <?php endif; ?>
-                                        <?php endif; ?>
-                                        <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["end"] && $order["status"] != \App\Dto\OrderDto::STATUS["clone"]): ?>
+                                        <?php else:; ?>
                                             <a class="btn btn-primary" href="/order/clone?id=<?=$order["id"]?>">Повторить</a>
                                             <a class="btn btn-warning" href="/order/edit?id=<?=$order["id"]?>">Просмотр</a>
                                         <?php endif; ?>
@@ -143,7 +142,7 @@
             </nav>
         </div>
 
-        <audio id="signal_new_order" class="hidden" src="assets/signal.mpeg" type="audio/mpeg" muted preload="none"></audio>
+        <audio id="signal_new_order" class="hidden" src="assets/signal.mp3" type="audio/mpeg" muted preload="none"></audio>
 
         <script type="application/javascript">var current_page = '<?=$orderFilter->page;?>';</script>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
