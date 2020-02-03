@@ -6,16 +6,41 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <style type="text/css">
+            body {
+                margin: 0;
+                padding: 0;
+            }
             .print-page {
-                font-size: 20px;
+                font-size: 14px;
                 font-family: Verdana,serif;
                 width: 100%;
                 height: 100%;
             }
-
             .print-head {
-                font-size: 35px;
-                text-align: center;
+                margin: 0;
+                padding: 0;
+                font-size: 41px;
+            }
+            .width {
+                width: 270px;
+            }
+            .top0 {
+                margin-top: 0;
+            }
+            .bottom0 {
+                margin-bottom: 0;
+            }
+            .top10 {
+                margin-top: 5px;
+            }
+            .bottom10 {
+                margin-bottom: 10px;
+            }
+            @page:left {
+                margin: 0;
+            }
+            @page:right {
+                margin: 0;
             }
         </style>
 
@@ -23,23 +48,21 @@
     </head>
     <body>
         <div class="print-page">
-            <p>******************************************************************</p>
-            <p class="print-head">My-fishka.ru</p>
-            <p>******************************************************************</p>
-            <p>Клиент: <?=$order["order_username"]?></p>
-            <p>Тел: <?=$order["tel"]?></p>
-            <p>
-                Адрес: <br/>
-                г. <?=$order["city"]?>, ул. <?=$order["street"]?>,<br/>
+            <p class="print-head bottom0">My-fishka.ru</p>
+            <p class="top0 bottom0">******************************************************************</p>
+            <p class="width top0 bottom0">Клиент: <?=$order["order_username"]?></p>
+            <p class="width top10 bottom0">Тел: <?=$order["tel"]?></p>
+            <p class="width top10 bottom0">
+                Адрес: г. <?=$order["city"]?>,<br/> ул. <?=$order["street"]?>,<br/>
                 д. <?=$order["house"]?>, кв. <?=$order["apartment"]?>, п. <?=$order["podezd"]?>, эт. <?=$order["floor"]?>
             </p>
-            <p>Домофон: <?=$order["domofon"]?></p>
-            <p>Тип оплаты: <?=$order["order_information"]["orderInformation"]["Вид оплаты"]?></p>
-            <p>Сдача с: <?=round($order["surrender"], 2)?></p>
-            <p>Кол-во персон: <?=$order["count_persons"]?></p>
-            <p>Коментарий: <?=$order["message"]?></p>
-            <p>******************************************************************</p>
-            <table>
+            <p class="width top10 bottom0">Домофон: <?=$order["domofon"]?></p>
+            <p class="width top10 bottom0">Тип оплаты: <?=$order["order_information"]["orderInformation"]["Вид оплаты"]?></p>
+            <p class="width top10 bottom0">Сдача с: <?=round($order["surrender"], 2)?></p>
+            <p class="width top10 bottom0">Кол-во персон: <?=$order["count_persons"]?></p>
+            <p class="width top10 bottom0">Коментарий: <?=$order["message"]?></p>
+            <p class="top0 top10 bottom0">******************************************************************</p>
+            <table class="width bottom0">
                 <thead>
                     <th style="text-align: left;">Название</th>
                     <th style="text-align: left;">Кол.</th>
@@ -55,9 +78,9 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <p>******************************************************************</p>
-            <p>Скидка: <?=$order["sales"]?>%</p>
-            <p>Итого:
+            <p class="bottom0">******************************************************************</p>
+            <p class="width top0 bottom0">Скидка: <?=$order["sales"]?>%</p>
+            <p class="width top10 bottom0">Итого:
             <?php $price = $order["order_information"]["final"]["Итого"]; ?>
             <?php if ($order["sales"] == 0): ?>
                 <?=$price?>руб.

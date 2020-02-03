@@ -11,7 +11,7 @@ const ajax_loader = {
     },
     functions: {
         getOrders: function () {
-            $.get("/order/ajax", function (data) {
+            $.get("/order/ajax" + window.location.search, function (data) {
                 const currentId = parseInt($(".table_block").find(".id").html());
                 ajax_loader.vars.last_order_id = parseInt($(data).find(".id").html());
 
