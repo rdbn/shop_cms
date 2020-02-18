@@ -242,7 +242,7 @@
                                             <label for="create_order_payment_type">Оплата</label>
                                             <select id="create_order_payment_type" name="create_order[order_information][orderInformation][Вид оплаты]" class="form-control">
                                                 <option <?php if (trim($orderInformation["Вид оплаты"]) == "Оплата наличными"): ?>selected<?php endif; ?> value="Оплата наличными">Оплата наличными</option>
-                                                <option <?php if (trim($orderInformation["Вид оплаты"]) == "Оплата картой"): ?>selected<?php endif; ?> value="Оплата картой">Оплата картой</option>
+                                                <option <?php if (trim($orderInformation["Вид оплаты"]) == "Оплата кредитной картой при получении заказа"): ?>selected<?php endif; ?> value="Оплата картой">Оплата картой</option>
                                             </select>
                                         </div>
                                     </td>

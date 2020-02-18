@@ -27,12 +27,12 @@ class StatisticController extends AbstractController
         $statisticFilterDto->page = $this->request->query->getInt("page", $statisticFilterDto->page);
         $statisticFilterDto->limit = $this->request->query->getInt("limit", $statisticFilterDto->limit);
 
-        try {
+//        try {
             $statistics = (new StatisticRepository())
                 ->findStatisticByFilter($statisticFilterDto);
-        } catch (DBALException $e) {
-            $statistics = [];
-        }
+//        } catch (DBALException $e) {
+//            $statistics = [];
+//        }
 
         return $this->renderTemplate("statistic/statistic", [
             "statisticFilterDto" => $statisticFilterDto,

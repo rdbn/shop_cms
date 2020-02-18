@@ -34,7 +34,7 @@ class InsertOrderQuery
 
         return sprintf(self::INSERT_SQL,
             $values["n_order"],
-            (float)$values["summa"],
+            (float)preg_replace("/[^0-9]/", "", $values["summa"]),
             "'{$date}'",
             "'{$values["fio"]}'",
             "'{$values["order_txt"]}'",

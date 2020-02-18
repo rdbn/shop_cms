@@ -80,7 +80,13 @@
                                     <?php endif; ?>
                                 </td>
                                 <td><?=$order["order_information"]["orderInformation"]["Доставка"]?></td>
-                                <td><?=$order["order_information"]["orderInformation"]["Вид оплаты"];?></td>
+                                <td>
+                                <?php if ("Оплата кредитной картой при получении заказа" == trim($order["order_information"]["orderInformation"]["Вид оплаты"])): ?>
+                                    Оплата картой
+                                <? else: ?>
+                                    <?=$order["order_information"]["orderInformation"]["Вид оплаты"];?>
+                                <?php endif; ?>
+                                </td>
                                 <td><?=(new \DateTime($order["order_date"]))->format("H:i:s d.m.Y") ?></td>
                                 <td><?=$order["order_username"] ?></td>
                                 <td><?=$order["tel"] ?></td>
