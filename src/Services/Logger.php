@@ -20,7 +20,7 @@ class Logger
     public function __construct(string $name)
     {
         $this->log = new MonologLogger($name);
-        $this->log->pushHandler(new StreamHandler(__DIR__ . "/../../log/{$name}.log", MonologLogger::INFO));
+        $this->log->pushHandler(new StreamHandler(__DIR__ . "/../../log/{$name}.log", MonologLogger::ERROR));
     }
 
     /**

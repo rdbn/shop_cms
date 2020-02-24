@@ -42,6 +42,11 @@
             @page:right {
                 margin: 0;
             }
+            .table-print {
+                margin: 0;
+                padding: 0;
+                text-align: left;
+            }
         </style>
 
         <title>Версия для печати</title>
@@ -57,23 +62,30 @@
                 д. <?=$order["house"]?>, кв. <?=$order["apartment"]?>, п. <?=$order["podezd"]?>, эт. <?=$order["floor"]?>
             </p>
             <p class="width top10 bottom0">Домофон: <?=$order["domofon"]?></p>
-            <p class="width top10 bottom0">Тип оплаты: <?=$order["order_information"]["orderInformation"]["Вид оплаты"]?></p>
+            <p class="width top10 bottom0">
+                Тип оплаты:
+                <?php if ("Оплата кредитной картой при получении заказа" == trim($order["order_information"]["orderInformation"]["Вид оплаты"])): ?>
+                    Оплата картой
+                <? else: ?>
+                    <?=$order["order_information"]["orderInformation"]["Вид оплаты"];?>
+                <?php endif; ?>
+            </p>
             <p class="width top10 bottom0">Сдача с: <?=round($order["surrender"], 2)?></p>
             <p class="width top10 bottom0">Кол-во персон: <?=$order["count_persons"]?></p>
             <p class="width top10 bottom0">Коментарий: <?=$order["message"]?></p>
             <p class="top0 top10 bottom0">******************************************************************</p>
-            <table class="width bottom0">
+            <table class="width bottom0 table-print">
                 <thead>
-                    <th style="text-align: left;">Название</th>
-                    <th style="text-align: left;">Кол.</th>
-                    <th style="text-align: left;">Стоим</th>
+                    <th>Название</th>
+                    <th>Кол.</th>
+                    <th>Стоим</th>
                 </thead>
                 <tbody>
                     <?php foreach ($order["order_information"]["products"] as $key => $product): ?>
                     <tr>
-                        <td style="text-align: left;"><?=$product["name"]?></td>
-                        <td style="text-align: left;"><?=$product["count"]?></td>
-                        <td style="text-align: right;"><?=$product["price"]?>руб.</td>
+                        <td><?=$product["name"]?></td>
+                        <td><?=$product["count"]?></td>
+                        <td><?=$product["price"]?>руб.</td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>

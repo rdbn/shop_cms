@@ -57,10 +57,15 @@ class SyncOrder
             }
             $orderNumberValue = $this->orderRepository->findOrdersByOrderNumber($orderInformation["n_order"]);
             if (false == $orderNumberValue) {
+                $delivery = $this->orderBitrixRepository->findTypeDelivery($orderInformation["n_order"]);
                 try {
+                    $parserInformation = new ParserInformation();
+                    $parserOrderInformation = $parserInformation->stringToArray($orderInformation["order_txt"]);
+                    $parserOrderInformation["orderInformation"]["Доставка"] = $delivery;
+                    $orderInformation["order_txt"] = $parserInformation->arrayToString($parserOrderInformation);
+
                     $this->dbal->executeQuery(InsertOrderQuery::query($orderInformation));
                     $orderId = $this->dbal->lastInsertId();
-                    $parserOrderInformation = (new ParserInformation())->stringToArray($orderInformation["order_txt"]);
                     foreach ($parserOrderInformation["products"] as $product) {
                         $productId = (new ProductRepository())->findProductByName($product["name"]);
                         if (false == $productId) {
