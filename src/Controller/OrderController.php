@@ -25,7 +25,7 @@ class OrderController extends AbstractController
         $orderFilter = new OrderFilterDto();
         $orderFilter->tel = $this->request->query->get("tel", null);
         $orderFilter->page = $this->request->query->getInt("page", 1);
-        $orderFilter->limit = $this->request->query->getInt("limit", 20);
+        $orderFilter->limit = $this->request->query->getInt("limit", 40);
 
         try {
             $orders = (new OrderRepository())->findOrdersByFilter($orderFilter);
@@ -137,6 +137,8 @@ class OrderController extends AbstractController
         if (count($order) == 0) {
             throw new ResourceNotFoundException();
         }
+
+        (new Connect())->connect()->update("`order`", ["status" => OrderDto::STATUS["in_work"]], ["id" => $order["id"]]);
 
         $order["order_information"] = (new ParserInformation())->stringToArray($order["order_information"]);
 
