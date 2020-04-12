@@ -61,7 +61,11 @@
                             <div class="item_title_pos"><span class="span_b">Телефон:</span> <?=$order["tel"] ?></div>
                             <div class="item_title_pos"><span class="span_b">Сумма:</span>
                                 <?php $price = $order["order_information"]["final"]["Итого"]; ?>
-                                <?=$price?>руб.
+                                <?php if ($order["sales"] == 0): ?>
+                                    <?=number_format($price, 0, ",", "")?> р.
+                                <?php else: ?>
+                                    <?=number_format(($price-($order["sales"] * $price / 100)), 0, ",", "")?> р.
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -74,7 +78,7 @@
                         </div>
                         <div class="row order_table__item">
                             <div class="col-lg-3 order_table__first"><span class="span_b">id <?=$order["id"] ?> </span><br>
-                                <span class="span_b">Дата: </span></span> <?=(new \DateTime($order["order_date"]))->format("H:i:s d.m.Y") ?>
+                                <span class="span_b">Дата: </span></span> <?=(new \DateTime($order["order_date"]))->format("d.m.Y H:i") ?>
                                 <br>
                                 <span class="span_b">Имя:</span> <?=$order["order_username"] ?><br>
                                 <p class="phone"><span class="span_b">Телефон:</span> <?=$order["tel"] ?></p>
@@ -85,6 +89,9 @@
                                 <? else: ?>
                                     <?=$order["order_information"]["orderInformation"]["Вид оплаты"];?>
                                 <?php endif; ?>
+                                <br>
+                                <span class="span_b">Сдача c:</span> <?=number_format($order["surrender"], 0, '.', '') ?><br>
+                                <span class="span_b">Кол-во персон:</span> <?=$order["count_persons"] ?><br>
                                 <span class="span_b">Комментарий:</span> <?=$order["message"]?>
                             </div>
                             <div class="col-lg-3">
@@ -107,11 +114,11 @@
                                     <?php if ($order["status"] == \App\Dto\OrderDto::STATUS["process"] || $order["status"] == \App\Dto\OrderDto::STATUS["in_work"]): ?>
                                         <a class="btn btn-primary" href="/order/edit?id=<?=$order["id"]?>">Редактировать</a>
                                         <a class="btn btn-warning" href="/order/change-status?id=<?=$order["id"]?>&status=<?=\App\Dto\OrderDto::STATUS["end"]?>">Выполнено</a>
-                                        <a class="btn btn-success ajax_print" data-id="<?=$order["id"]?>" href="#">Печать</a>
                                     <?php else:; ?>
                                         <a class="btn btn-primary" href="/order/clone?id=<?=$order["id"]?>">Повторить</a>
                                         <a class="btn btn-warning" href="/order/edit?id=<?=$order["id"]?>">Просмотр</a>
                                     <?php endif; ?>
+                                    <a class="btn btn-success ajax_print" data-id="<?=$order["id"]?>" href="#">Печать</a>
                                     <a class="btn btn-danger" href="/order/change-status?id=<?=$order["id"]?>&status=<?=\App\Dto\OrderDto::STATUS["delete"]?>">Удалить</a>
                                 </div>
                                 <div class="total_price">
@@ -120,10 +127,10 @@
                                         <p>
                                             <?php $price = $order["order_information"]["final"]["Итого"]; ?>
                                             <?php if ($order["sales"] == 0): ?>
-                                                <?=$price?>руб.
+                                                <?=number_format($price, 0, ",", "")?> р.
                                             <?php else: ?>
-                                                <s><?=$price?>руб.</s><br>
-                                                <?=($price-($order["sales"] * $price / 100))?>руб.
+                                                <s><?=number_format($price, 0, ",", "")?> р.</s><br>
+                                                <?=number_format(($price-($order["sales"] * $price / 100)), 0, ",", "")?> р.
                                             <?php endif; ?>
                                     </div>
                                 </div>
@@ -172,202 +179,6 @@
         $("#filter-tel").mask("+7 (999) 999-99-99");
     })
 </script>
-
-<script>
-    $('.cp_item_title_inner').on('click',function(){
-        $(this).parents('.cp_item').find('.cp_item_body').slideToggle(300);
-        $(this).toggleClass('open');
-        if ($(this).hasClass('show_all')){
-            if ($(this).hasClass('open')) {
-                $(this).html('Свернуть все');
-                $('.cp_item_title_inner:not(.open)').trigger('click');
-            } else {
-                $(this).html('Смотреть все');
-                $('.cp_item_title_inner.open').trigger('click');
-            }
-        }
-    });
-</script>
-
-<style>
-    .top20 {
-        margin-top: 20px;
-    }
-
-    .cp_list .col-lg-3,
-    .cp_list .col-lg-2,
-    .cp_list .col-lg-4 {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    .cp_list .print {
-        background: rgba(0,123,255,0.2);
-    }
-
-    .cp_list .new {
-        background: rgba(220,53,69,0.2);
-    }
-
-    .cp_list .end {
-        background: rgba(120, 240, 120, 1);
-    }
-
-    .order_table {
-        margin: 0;
-        font-weight: 600;
-        border-bottom: 2px solid #BED800;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        align-items: center;
-        font-size: 15px;
-    }
-
-
-    .order_table__item {
-        margin: 0;
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
-
-    .order_table__first {
-        padding-left: 5px;
-    }
-
-
-    .order_table__last {
-        text-align: right;
-        padding-right: 5px;
-    }
-
-    .order_table__item__adres {
-        padding-bottom: 10px;
-    }
-
-    .phone {
-        display: inline block;
-        margin-top: 3px;
-        margin-bottom: 3px;
-    }
-
-    .phone:before {
-        display: block;
-        content: "";
-        border-top: 1px solid #BED800;
-        width: 90%;
-        padding-top: 5px;
-    }
-
-    .phone:after  {
-        display: block;
-        content: "";
-        border-bottom: 1px solid #BED800;
-        width: 90%;
-        padding-bottom: 5px;
-    }
-
-    .span_b {
-        font-weight: 600;
-    }
-
-
-    .total_price {
-        padding-bottom: 10px;
-        padding-top: 10px;
-        border: 2px solid #BED800;
-        margin-top: 20px;
-        text-align: center;
-        float: right;
-        width: 100%;
-    }
-
-    .total_price_cont p {
-        margin: 0;
-        padding-right: 10px;
-        line-height: 1;
-    }
-
-    .old_price {
-        text-decoration: line-through;
-    }
-
-    .total_price_cont {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .col-lg-3:before1  {
-        display: block;
-        content: "";
-        border-right: 1px solid #BED800;
-        width: 90%;
-        padding-bottom: 5px;
-    }
-
-    .item_title_pos {
-        display: inline-block;
-    }
-
-
-
-    .cp_list{
-        position: relative;
-        color: #192430;
-    }
-    .cp_item{
-        border-bottom: 2px solid #BED800;
-    }
-    .cp_item_title{
-        box-sizing: border-box;
-        font-size: 20px;
-        text-transform: uppercase;
-        position: relative;
-    }
-    .cp_show_all .cp_item_title{
-        font-weight: 900;
-        padding-left: 23px;
-        margin-top: 20px;
-    }
-    .cp_item_title_inner{
-        display: inline-block;
-        position: relative;
-        padding: 0 60px 0 0;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-    }
-    .cp_item_title_inner:hover:before{
-        transform: translateY(1px);
-    }
-    .cp_item_title_inner:before{
-        position: absolute;
-        content: '';
-        right: 0;
-        top: 0;
-        width: 30px;
-        height: 100%;
-        background: url(cp_arrow_down.png) no-repeat center center;
-        cursor: pointer;
-        transition: .2s;
-        transition-timing-function: ease-in-out;
-    }
-    .cp_item_title_inner.open:before{
-        transform: rotate(180deg);
-    }
-    .cp_item_body{
-        font-size: 16px;
-        padding: 10px;
-        box-sizing: border-box;
-        display: none;
-    }
-
-    .cp_item_title_inner .item_title_pos:first-child {
-        padding-left: 5px;
-        background: #b0ff74;
-        padding-right: 5px;;
-    }
-</style>
 
 </body>
 </html>

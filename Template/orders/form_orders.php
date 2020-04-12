@@ -95,16 +95,16 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        <label for="create_order_order_apartment">Квартира</label>
-                                        <input id="create_order_order_apartment" type="text" name="create_order[apartment]" class="form-control" placeholder="Адрес заказчика(Квартира)" value="<?php if (isset($requestValue["apartment"])): ?><?=$requestValue["apartment"]?><?php endif ?>" />
-                                        <p class="text-danger"><strong><?php if (isset($errorMessages["apartment"])): ?><?=$errorMessages["apartment"]?><?php endif ?></strong></p>
+                                        <label for="create_order_order_floor">Этаж</label>
+                                        <input id="create_order_order_floor" type="text" name="create_order[floor]" class="form-control" placeholder="Адрес заказчика(Этаж)" value="<?php if (isset($requestValue["floor"])): ?><?=$requestValue["floor"]?><?php endif ?>" />
+                                        <p class="text-danger"><strong><?php if (isset($errorMessages["floor"])): ?><?=$errorMessages["floor"]?><?php endif ?></strong></p>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        <label for="create_order_order_floor">Этаж</label>
-                                        <input id="create_order_order_floor" type="text" name="create_order[floor]" class="form-control" placeholder="Адрес заказчика(Этаж)" value="<?php if (isset($requestValue["floor"])): ?><?=$requestValue["floor"]?><?php endif ?>" />
-                                        <p class="text-danger"><strong><?php if (isset($errorMessages["floor"])): ?><?=$errorMessages["floor"]?><?php endif ?></strong></p>
+                                        <label for="create_order_order_apartment">Квартира</label>
+                                        <input id="create_order_order_apartment" type="text" name="create_order[apartment]" class="form-control" placeholder="Адрес заказчика(Квартира)" value="<?php if (isset($requestValue["apartment"])): ?><?=$requestValue["apartment"]?><?php endif ?>" />
+                                        <p class="text-danger"><strong><?php if (isset($errorMessages["apartment"])): ?><?=$errorMessages["apartment"]?><?php endif ?></strong></p>
                                     </div>
                                 </td>
                             </tr>
@@ -265,6 +265,7 @@
                                         <select id="create_order_payment_type" name="create_order[order_information][orderInformation][Вид оплаты]" class="form-control">
                                             <option value="Оплата наличными">Оплата наличными</option>
                                             <option value="Оплата картой">Оплата картой</option>
+                                            <option value="Оплачено">Оплачено</option>
                                         </select>
                                     </div>
                                     </td>
@@ -406,7 +407,7 @@
                     $(this).attr("data-count", parseInt(count) + 1);
 
                     var html = '<tr class="products"><td>' +
-'<input value="" name="create_order[order_information][products]['+count+'][name]" class="form-control typeahead" type="text" data-provide="typeahead" data-count="'+count+'" />' +
+'<input value="" name="create_order[order_information][products]['+count+'][name]" class="form-control typeahead" type="text" data-provide="typeahead" data-count="'+count+'" autocomplete="off" />' +
 '</td><td><input class="price order-prices-'+count+'" name="create_order[order_information][products]['+count+'][price]" type="hidden" value="" />' +
 '<span class="span-order-prices-'+count+'"></span>руб.</td><td><div class="row"><div class="col-lg-6"><div class="input-group"><span class="input-group-btn">' +
 '<button class="btn btn-success add-order" type="button" data-id="'+count+'"><span class="glyphicon glyphicon-plus"></span></button></span>' +

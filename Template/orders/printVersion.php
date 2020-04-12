@@ -55,11 +55,12 @@
         <div class="print-page">
             <p class="print-head bottom0">My-fishka.ru</p>
             <p class="top0 bottom0">******************************************************************</p>
-            <p class="width top0 bottom0">Клиент: <?=$order["order_username"]?></p>
+            <p class="width top0 bottom0">id <?=$order["id"]?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=date("d.m.Y H:i")?></p>
+            <p class="width top10 bottom0">Клиент: <?=$order["order_username"]?></p>
             <p class="width top10 bottom0">Тел: <?=$order["tel"]?></p>
             <p class="width top10 bottom0">
                 Адрес: г. <?=$order["city"]?>,<br/> ул. <?=$order["street"]?>,<br/>
-                д. <?=$order["house"]?>, кв. <?=$order["apartment"]?>, п. <?=$order["podezd"]?>, эт. <?=$order["floor"]?>
+                д. <?=$order["house"]?>, п. <?=$order["podezd"]?>, эт. <?=$order["floor"]?>, кв. <?=$order["apartment"]?>
             </p>
             <p class="width top10 bottom0">Домофон: <?=$order["domofon"]?></p>
             <p class="width top10 bottom0">
@@ -72,6 +73,7 @@
             </p>
             <p class="width top10 bottom0">Сдача с: <?=round($order["surrender"], 2)?></p>
             <p class="width top10 bottom0">Кол-во персон: <?=$order["count_persons"]?></p>
+            <p class="width top10 bottom0">Доставка: <?=$order["order_information"]["orderInformation"]["Доставка"]?></p>
             <p class="width top10 bottom0">Коментарий: <?=$order["message"]?></p>
             <p class="top0 top10 bottom0">******************************************************************</p>
             <table class="width bottom0 table-print">
@@ -85,7 +87,7 @@
                     <tr>
                         <td><?=$product["name"]?></td>
                         <td><?=$product["count"]?></td>
-                        <td><?=$product["price"]?>руб.</td>
+                        <td><?=$product["price"]?> р.</td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -95,9 +97,9 @@
             <p class="width top10 bottom0">Итого:
             <?php $price = $order["order_information"]["final"]["Итого"]; ?>
             <?php if ($order["sales"] == 0): ?>
-                <?=$price?>руб.
+                <?=$price?> р.
             <?php else: ?>
-                <s><?=$price?>руб.</s> <?=($price-($order["sales"] * $price / 100))?>руб.
+                <s><?=$price?> р.</s> <?=($price-($order["sales"] * $price / 100))?> р.
             <?php endif; ?>
             </p>
         </div>

@@ -37,3 +37,18 @@ const ajax_loader = {
 $(document).ready(function () {
     ajax_loader.init();
 });
+
+
+$('.table_block').on('click', '.cp_item_title_inner', function() {
+    $(this).parents('.cp_item').find('.cp_item_body').slideToggle(300);
+    $(this).toggleClass('open');
+    if ($(this).hasClass('show_all')){
+        if ($(this).hasClass('open')) {
+            $(this).html('Свернуть все');
+            $('.cp_item_title_inner:not(.open)').trigger('click');
+        } else {
+            $(this).html('Смотреть все');
+            $('.cp_item_title_inner.open').trigger('click');
+        }
+    }
+});

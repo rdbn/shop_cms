@@ -10,7 +10,7 @@
                 <div class="item_title_pos"><span class="span_b">Телефон:</span> <?=$order["tel"] ?></div>
                 <div class="item_title_pos"><span class="span_b">Сумма:</span>
                     <?php $price = $order["order_information"]["final"]["Итого"]; ?>
-                    <?=$price?>руб.
+                    <?=$price?> р.
                 </div>
             </div>
         </div>
@@ -34,6 +34,9 @@
                     <? else: ?>
                         <?=$order["order_information"]["orderInformation"]["Вид оплаты"];?>
                     <?php endif; ?>
+                    <br>
+                    <span class="span_b">Сдача c:</span> <?=number_format($order["surrender"], 0, '.', '') ?><br>
+                    <span class="span_b">Кол-во персон:</span> <?=$order["count_persons"] ?><br>
                     <span class="span_b">Комментарий:</span> <?=$order["message"]?>
                 </div>
                 <div class="col-lg-3">
@@ -69,10 +72,10 @@
                             <p>
                                 <?php $price = $order["order_information"]["final"]["Итого"]; ?>
                                 <?php if ($order["sales"] == 0): ?>
-                                    <?=$price?>руб.
+                                    <?=$price?> р.
                                 <?php else: ?>
-                                    <s><?=$price?>руб.</s><br>
-                                    <?=($price-($order["sales"] * $price / 100))?>руб.
+                                    <s><?=$price?> р.</s><br>
+                                    <?=($price-($order["sales"] * $price / 100))?> р.
                                 <?php endif; ?>
                         </div>
                     </div>
