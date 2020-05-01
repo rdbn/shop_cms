@@ -118,7 +118,7 @@
                                         <a class="btn btn-primary" href="/order/clone?id=<?=$order["id"]?>">Повторить</a>
                                         <a class="btn btn-warning" href="/order/edit?id=<?=$order["id"]?>">Просмотр</a>
                                     <?php endif; ?>
-                                    <a class="btn btn-success ajax_print" data-id="<?=$order["id"]?>" href="#">Печать</a>
+                                    <a class="btn btn-success ajax_print" data-id="<?=$order["id"]?>" data-notChange="<?php if ($order["status"] == \App\Dto\OrderDto::STATUS["end"]): ?>1<?php else: ?>0<?php endif; ?>" href="#">Печать</a>
                                     <a class="btn btn-danger" href="/order/change-status?id=<?=$order["id"]?>&status=<?=\App\Dto\OrderDto::STATUS["delete"]?>">Удалить</a>
                                 </div>
                                 <div class="total_price">

@@ -122,7 +122,10 @@ class OrderController extends AbstractController
                 throw new ResourceNotFoundException();
         }
 
-        (new Connect())->connect()->update("`order`", ["status" => $status], ["id" => $order["id"]]);
+        if ($this->request->query->getInt("not_change", 0) == 0) {
+            (new Connect())->connect()
+                ->update("`order`", ["status" => $status], ["id" => $order["id"]]);
+        }
 
         $this->redirect();
     }
@@ -138,7 +141,10 @@ class OrderController extends AbstractController
             throw new ResourceNotFoundException();
         }
 
-        (new Connect())->connect()->update("`order`", ["status" => OrderDto::STATUS["in_work"]], ["id" => $order["id"]]);
+        if ($this->request->query->getInt("not_change", 0) == 0) {
+            (new Connect())->connect()
+                ->update("`order`", ["status" => OrderDto::STATUS["in_work"]], ["id" => $order["id"]]);
+        }
 
         $order["order_information"] = (new ParserInformation())->stringToArray($order["order_information"]);
 

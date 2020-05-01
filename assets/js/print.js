@@ -7,15 +7,16 @@ var ajax_print = {
             $(document).on('click', '.ajax_print:not(.disabled)', function (e) { // При нажатии на кнопку печати
                 e.preventDefault();
                 var id = $(this).data('id'); // Получим ид заказа
+                var notChange = $(this).attr('data-notChange');
                 if ($.isNumeric(id)) { // Если верный id
                     const element = $(this);
                     element.addClass('disabled'); // Отклчим кнопку
-                    ajax_print.functions.tryPrint(id, element); // Запустим процесс печати
+                    ajax_print.functions.tryPrint(id, element, notChange); // Запустим процесс печати
                 }
             });
         },
-        tryPrint: function (id, element) { // Попробуем распечатать
-            $.get("/order/print-version?id="+id, function (data) {
+        tryPrint: function (id, element, notChange) { // Попробуем распечатать
+            $.get("/order/print-version?id="+id+"&not_change="+notChange, function (data) {
                 $('.ajax_print[data-id="'+id+'"]').removeClass('disabled'); // Включим кнопку
                 $('.print_tmp_content').html(data); // Поместим html
                 printJS('print_tmp_content', 'html'); // Распечатаем
