@@ -145,8 +145,10 @@
                                             <input value="<?=$product["name"]?>" name="create_order[order_information][products][<?=$key?>][name]" class="form-control typeahead" type="text" data-provide="typeahead" />
                                         </td>
                                         <td>
-                                            <input class="price order-prices-<?=$key?>" name="create_order[order_information][products][<?=$key?>][price]" type="hidden" value="<?=$product["price"]?>" />
-                                            <?=$product["price"]?>руб.
+                                            <div class="input-group">
+                                                <input data-id="<?=$key?>" class="price order-prices-<?=$key?> form-control" name="create_order[order_information][products][<?=$key?>][price]" type="text" value="<?=$product["price"]?>" />
+                                                <span class="input-group-addon">руб.</span>
+                                            </div>
                                         </td>
                                         <td>
                                             <div class="row">
@@ -344,27 +346,60 @@
 
                 $("#final-total-sum").html(parseFloat(valueTotalSum) + sumDelivery + 'руб.');
                 $("#input-final-total-sum").val(parseFloat(valueTotalSum) + sumDelivery);
+
+                $("#btn-group .sales").each(function () {
+                    if ($(this).hasClass("active")) {
+                        sales(this);
+                    }
+                });
+            }
+            function sales(element) {
+                $("#create_order_sales").val($(element).attr("data-sales"));
+                if (!$(element).hasClass("active")) {
+                    $(element).parent().find(".sales").each(function () {
+                        $(this).removeClass("active");
+                    });
+                    $(element).addClass("active");
+                }
+                var saleValue = parseInt($(element).html());
+                var sumDelivery = parseFloat($("#sum-delivery").attr("data-sum"));
+                var valueTotalSum = totalSum();
+
+                valueTotalSum -= (saleValue * valueTotalSum / 100);
+                $("#total-sum").html('<s>'+$("#input-total-sum").val()+'руб.</s>: ' + valueTotalSum + 'руб.');
+                $("#final-total-sum").html('<s>'+$("#input-final-total-sum").val()+'руб.</s>: ' + (sumDelivery + valueTotalSum) + 'руб.');
             }
             $(document).ready(function () {
+                $("#order-information tbody").on("keyup", ".price", function() {
+                    var id = $(this).attr("data-id");
+                    var price = parseFloat($(".order-prices-" + id).val());
+                    var countElement = $(".order-count-" + id);
+                    var count = parseInt(countElement.val());
+
+                    var totalPrice = price * count;
+                    $(".price-total-"+id).html(totalPrice);
+                    $(".order-total-prices-"+id).val(totalPrice);
+
+                    finalTotalSum();
+                });
+                $("#order-information tbody").on("keydown", ".price", function() {
+                    var id = $(this).attr("data-id");
+                    var price = parseFloat($(".order-prices-" + id).val());
+                    var countElement = $(".order-count-" + id);
+                    var count = parseInt(countElement.val());
+
+                    var totalPrice = price * count;
+                    $(".price-total-"+id).html(totalPrice);
+                    $(".order-total-prices-"+id).val(totalPrice);
+
+                    finalTotalSum();
+                });
                 $("#order-information tbody").on("click", ".remove-element", function () {
                     $(this).parent().parent().remove();
                     finalTotalSum();
                 });
                 $("#btn-group .sales").click(function () {
-                    $("#create_order_sales").val($(this).attr("data-sales"));
-                    if (!$(this).hasClass("active")) {
-                        $(this).parent().find(".sales").each(function () {
-                            $(this).removeClass("active");
-                        });
-                        $(this).addClass("active");
-                    }
-                    var saleValue = parseInt($(this).html());
-                    var sumDelivery = parseFloat($("#sum-delivery").attr("data-sum"));
-                    var valueTotalSum = totalSum();
-
-                    valueTotalSum -= (saleValue * valueTotalSum / 100);
-                    $("#total-sum").html('<s>'+$("#input-total-sum").val()+'руб.</s>: ' + valueTotalSum + 'руб.');
-                    $("#final-total-sum").html('<s>'+$("#input-final-total-sum").val()+'руб.</s>: ' + (sumDelivery + valueTotalSum) + 'руб.');
+                    sales(this);
                 });
                 $(".disabled-sale").click(function () {
                     $("#create_order_sales").val(0);
@@ -408,8 +443,8 @@
 
                     var html = '<tr class="products"><td>' +
 '<input value="" name="create_order[order_information][products]['+count+'][name]" class="form-control typeahead" type="text" data-provide="typeahead" data-count="'+count+'" autocomplete="off" />' +
-'</td><td><input class="price order-prices-'+count+'" name="create_order[order_information][products]['+count+'][price]" type="hidden" value="" />' +
-'<span class="span-order-prices-'+count+'"></span>руб.</td><td><div class="row"><div class="col-lg-6"><div class="input-group"><span class="input-group-btn">' +
+'</td><td><div class="input-group"><input data-id="'+count+'" class="price order-prices-'+count+' form-control" name="create_order[order_information][products]['+count+'][price]" type="text" value="" />' +
+'<span class="input-group-addon">руб.</span></div></td><td><div class="row"><div class="col-lg-6"><div class="input-group"><span class="input-group-btn">' +
 '<button class="btn btn-success add-order" type="button" data-id="'+count+'"><span class="glyphicon glyphicon-plus"></span></button></span>' +
 '<input name="create_order[order_information][products]['+count+'][count]" type="number" class="form-control order-count-'+count+'" value="1" />' +
 '<span class="input-group-btn"><button class="btn btn-danger remove-order" type="button" data-id="'+count+'"><span class="glyphicon glyphicon-minus"></span></button></span>' +
@@ -433,7 +468,6 @@
                         updater: function(selection){
                             var count = element.attr("data-count");
                             element.parent().parent().find(".order-prices-" + count).val(parseFloat(selection.price));
-                            element.parent().parent().find(".span-order-prices-" + count).html(parseFloat(selection.price));
 
                             element.parent().parent().find(".order-total-prices-" + count).val(parseFloat(selection.price));
                             element.parent().parent().find(".price-total-" + count).html(parseFloat(selection.price));

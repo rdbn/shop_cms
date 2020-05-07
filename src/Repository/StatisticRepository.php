@@ -34,7 +34,7 @@ class StatisticRepository
     {
         $qb = $this->dbal->createQueryBuilder();
         $qb
-            ->addSelect("SUM(stat.count_order_product) as count")
+            ->addSelect("COUNT(DISTINCT stat.order_id) as count")
             ->from("statistic_order", "stat")
             ->leftJoin("stat", "`product`", "p", "stat.product_id = p.id")
             ->leftJoin("stat", "`order`", "o", "stat.order_id = o.id")
@@ -56,11 +56,15 @@ class StatisticRepository
         }
 
         if ($filterDto->product) {
-            $qb->andWhere($qb->expr()->eq("p.name", $this->dbal->quote($filterDto->product)));
+            $qb->andWhere($qb->expr()->like("p.name", $this->dbal->quote("%{$filterDto->product}%")));
         }
 
         if ($filterDto->isEndOrder) {
-            $qb->andWhere($qb->expr()->eq("o.status", OrderDto::STATUS["end"]));
+            $qb->andWhere($qb->expr()->in("o.status", [
+                OrderDto::STATUS["delete"],
+                OrderDto::STATUS["in_work"],
+                OrderDto::STATUS["end"],
+            ]));
         }
 
         switch ($filterDto->groupBy) {

@@ -80,6 +80,9 @@
                         <input type="hidden" name="page" value="<?=$statisticFilterDto->page?>" />
                         <input type="hidden" name="limit" value="<?=$statisticFilterDto->limit?>" />
                         <button class="btn btn-primary">Фильтровать</button>
+                        <?php $finalPrice = 0 ?>
+                        <?php foreach ($statistics as $statistic): ?><?php $finalPrice += $statistic["price"]; ?><?php endforeach; ?>
+                        <span style="margin-left: 226px"><?=number_format($finalPrice, 0, '', '')?>руб.</span>
                     </div>
                 </div>
             </form>
@@ -88,7 +91,7 @@
                     <table class="table">
                         <thead>
                             <th>Название(id)</th>
-                            <th>Количество товар</th>
+                            <th>Количество заказов</th>
                             <th>Стоимость товаров</th>
                         </thead>
                         <tbody>

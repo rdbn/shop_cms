@@ -61,7 +61,7 @@ class StatisticFilterDto
     /**
      * @var int
      */
-    public $limit = 20;
+    public $limit = 500;
 
     /**
      * @return array|\DateTimeImmutable[]

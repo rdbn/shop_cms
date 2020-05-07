@@ -13,6 +13,8 @@ class InsertProductQuery
      */
     public static function query(string $name, float $price): string
     {
-        return sprintf(self::INSERT_SQL, $name, $price);
+        $clearName = str_replace("/[^а-яa-zЁё0-9\s]/", '', $name);
+
+        return sprintf(self::INSERT_SQL, $clearName, $price);
     }
 }
